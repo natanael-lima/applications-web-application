@@ -7,6 +7,7 @@ body {
   background-color: #f5f5f5;
 }
 
+/*Diseño de Login*/
 .form-signin {
   width: 100%;
   max-width: 330px;
@@ -35,7 +36,7 @@ body {
 }
 
 
-/*Pasos para iniciar*/
+/*Card Ofertas and Pasos para Iniciar*/
 .bi {
   vertical-align: -.125em;
   fill: currentColor;
@@ -89,3 +90,9 @@ body {
   background-position: center center;
   background-size: cover;
 }
+
+/* para sector cards*/
+
+
+
+

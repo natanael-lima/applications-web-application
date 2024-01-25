@@ -28,20 +28,25 @@ public class User {
 	private String lastname;
 	@Column(name = "email", nullable=false)
 	private String email;
-
+	
+	@Column(name = "estado")
+	private Boolean loggedIn;
+	
 	private String username;
 
 	private String password;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "role_id")
+	
+	 @ManyToOne
+	 @JoinColumn(name = "role_id")
 	private Role role;
 
 	
 	public User() {
 	}
 	
-	public User(String name, String lastname, String email, String username, String password, Role role) {
+	public User(String name, String lastname, String email, String username, String password,
+			Role role) {
 		super();
 		this.name = name;
 		this.lastname = lastname;
@@ -50,7 +55,15 @@ public class User {
 		this.password = password;
 		this.role = role;
 	}
-	
+
+	public Boolean getLoggedIn() {
+		return loggedIn;
+	}
+
+	public void setLoggedIn(Boolean loggedIn) {
+		this.loggedIn = loggedIn;
+	}
+
 	public Long getId() {
 		return id;
 	}
