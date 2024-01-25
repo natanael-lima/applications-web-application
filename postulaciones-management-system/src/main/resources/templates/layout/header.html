@@ -25,14 +25,27 @@
 		      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 		        <li><a href="/" class="nav-link px-2 text-white">Inicio</a></li>
 		        <li><a href="/" th:href="@{/form-job-offer}" class="nav-link px-2 text-white">Ofertas Laborales</a></li>
-		        <li><a href="#" class="nav-link px-2 text-white">Sectores</a></li>
+		        <li><a href="/" th:href="@{/form-sector}" class="nav-link px-2 text-white">Sectores</a></li>
 		      </ul>
 			
-		
-		      <div class="text-end">
-		        <button type="button" class="btn btn-outline-light me-2">Iniciar Sesion</button>
-		        <a class="btn btn-primary" href="/" th:href="@{/registration}" role="button">Registrame</a>
-		      </div>
+			   <div th:unless="${isLoggedIn}" class="text-end">
+			        <a class="btn btn-outline-light" href="/" th:href="@{/login}" role="button">Iniciar Sesion</a>
+			        <a class="btn btn-primary" href="/" th:href="@{/registration}" role="button">Registrame</a>
+	
+			   </div>
+		        <!-- Botón de Cerrar Sesión -->
+		       <div th:if="${isLoggedIn}" class=" flex-shrink-0 dropdown">
+			        <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+			          	<img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+			        </a>
+				    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+				          <li><a class="dropdown-item text-body-secondary" th:text="${#authentication.principal.username}" > </a></li>
+				          <li><a class="dropdown-item" th:href="@{/postulaciones}">Mis Postulaciones</a></li>
+				          <li><a class="dropdown-item" th:href="@{/user/profile}">Configuracion</a></li>
+				          <li><hr class="dropdown-divider"></li>
+				          <li><a class="dropdown-item" th:href="@{/logout}">Cerrar Sesion</a></li>
+				     </ul>
+			    </div>
 		    </div>
 		  </div>
 	</header>

@@ -1,8 +1,5 @@
 package com.application.psm.service.imp;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,7 +27,7 @@ public class UserServiceImp implements UserService{
 	public User saveUser(User user) {
 
 				
-		Role userRole = roleRepository.findById(2L).get();
+		Role userRole = roleRepository.findById(1L).get();
 
 		User newUser = new User(
 			    user.getName(),
@@ -40,7 +37,7 @@ public class UserServiceImp implements UserService{
 			    passwordEncoder.encode(user.getPassword()),
 			    userRole
 			);
-		
+		newUser.setLoggedIn(false);
 		return userRepository.save(newUser);
 	}
 
@@ -49,6 +46,13 @@ public class UserServiceImp implements UserService{
 	public boolean checkUsername(String username) {
 		// TODO Auto-generated method stub
 		return userRepository.existsByUsername(username);
+	}
+
+
+	@Override
+	public User findByUsername(String username) {
+		// TODO Auto-generated method stub
+		return userRepository.findByUsername(username);
 	}
 }
 

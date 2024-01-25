@@ -12,6 +12,8 @@ public interface UserService{
 	public User saveUser(User user);
 	
 	public boolean checkUsername(String username);
+	
+	public User findByUsername (String username);
 	//void removeSessionMessage();
 	
 	//void deleteUser(Long id);

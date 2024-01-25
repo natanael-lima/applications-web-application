@@ -42,7 +42,7 @@ public class UserController {
 		}else {
 			
 			User u = userService.saveUser(user);
-
+			
 			if (u != null) {
 				// System.out.println("save sucess");
 				session.setAttribute("success", "Register successfully");
@@ -52,26 +52,8 @@ public class UserController {
 				session.setAttribute("error", "Something wrong server");
 			}
 		}
-		return "redirect:/registration";
+		return "redirect:/registration?success";
 	}
 	
-		//
-
-		/*
-		@ModelAttribute("user")
-		public UserRegistrationDto userRegistrationDto () {
-			return new UserRegistrationDto();
-		}
-		
-		@GetMapping	
-		public String showrUserForm(Model model) {
-					return "registration";
-		}
-		
-		@PostMapping
-		public String saveUserAccount(@ModelAttribute("user") UserRegistrationDto registrationDto) {
-			userService.saveUser(registrationDto);
-			return "redirect:/registration?success";
-		}*/
 
 }

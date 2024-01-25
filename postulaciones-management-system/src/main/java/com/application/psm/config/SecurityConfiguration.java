@@ -45,6 +45,7 @@ public class SecurityConfiguration {
         .formLogin(formLogin ->
             formLogin
                 .loginPage("/login").permitAll()
+                //.defaultSuccessUrl("/home", true) // Redirige a "/home" después de un inicio de sesión exitoso
         )
         .logout(logout ->
             logout
