@@ -1,5 +1,6 @@
 <!DOCTYPE html >
-<html xmlns:th="http://thymeleaf.org">
+<html xmlns:th="http://thymeleaf.org"
+	 xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 	<meta charset="UTF-8">
 	<title>PMS</title>
@@ -20,8 +21,8 @@
 		      <h1 class="display-4 fw-bold lh-1">Postulant Managament System</h1>
 		      <p class="lead">En nuestro compromiso por facilitar tu camino hacia nuevas oportunidades laborales, te damos la más cordial bienvenida a nuestra plataforma. Aquí, encontrarás un espacio diseñado para simplificar el proceso de postulación a ofertas laborales en nuestra Plataforma de Autogestión de Postulaciones.</p>
 		      <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-		        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Iniciar Sesion</button>
-		        <button type="button" class="btn btn-outline-dark btn-lg px-4">Registrase</button>
+		        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Sobre Nosotros</button>
+		        <button type="button" class="btn btn-outline-dark btn-lg px-4">Contacto</button>
 		      </div>
 		    </div>
 		    <div class="col-lg-4 offset-lg-1 p-0 position-relative overflow-hidden shadow-lg">
@@ -48,17 +49,43 @@
 			          <h4 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Developer .NET</h4>
 			          <p>Sector: Programador
 						Programador con experiencia comprobable 1 año en angular</p>
-			          <ul class="d-flex list-unstyled mt-auto">
-			            <li class="d-flex align-items-center me-3">
-			              	<a class="btn btn-primary" href="/" th:href="@{/form-postulant}" role="submit"><small>Postularme</small></a>
-			            </li>
-			            <li class="d-flex align-items-center">
-			           		<button type="button" class="btn btn-outline-light px-4"><small>Ver</small></button>
-			            </li>
-			            
-			          </ul>
-			          
-			        </div>
+			          <div class="d-flex list-unstyled mt-auto">
+			              	<!-- Botón grupal -->
+			                <div class="btn-group">
+			                  <button type="button" class="btn btn-sm btn-outline-light">Postularme</button>
+			                  <!-- Botón que abre el modal -->
+							  <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#miModal">Ver</button>
+			                </div>
+			                <!-- Modal -->
+								<div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+								    <div class="modal-dialog modal-lg">
+								        <div class="modal-content text-black">
+								            <div class="modal-header">
+								                <h5 class="modal-title" id="miModalLabel">Desarrollador de Software Senior</h5>
+								                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+								            </div>
+								            <div class="modal-body">
+								                <!-- Contenido del modal -->
+								               		<p><strong>Título:</strong>Desarrollador de Software Senior</p>
+													<p><strong>Descripción:</strong> Buscamos un profesional con experiencia en el desarrollo de aplicaciones web y móviles. Deberá participar en todas las fases del ciclo de vida del software.</p>
+													<p><strong>Requisitos:</strong></p>
+													<ul>
+													    <li>Experiencia en Java y frameworks asociados.</li>
+													    <li>Conocimientos sólidos de desarrollo frontend y backend.</li>
+													    <li>Habilidades de resolución de problemas y trabajo en equipo.</li>
+													</ul>
+								                <div class="container-fluid">
+								                    
+								                </div>
+								            </div>
+								            <div class="modal-footer">
+								                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+								            </div>
+								        </div>
+								    </div>
+								</div>
+              			</div>
+			          </div>
 			      </div>
 			    
 			    </div>
@@ -69,14 +96,42 @@
 			          <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Ingeniero en Minas</h2>
 			          <p>Sector: Programador
 						Programador con experiencia comprobable 1 año en angular</p>
-			          <ul class="d-flex list-unstyled mt-auto">
-			            <li class="d-flex align-items-center me-3">
-			              <a class="btn btn-primary" href="/" th:href="@{/form-postulant}" role="submit"><small>Postularme</small></a>
-			            </li>
-			            <li class="d-flex align-items-center">
-			             	<button type="button" class="btn btn-outline-light px-4"><small>Ver</small></button>
-			            </li>
-			          </ul>
+			          <div class="d-flex list-unstyled mt-auto">
+			              	<!-- Botón grupal -->
+			                <div class="btn-group">
+			                  <button type="button" class="btn btn-sm btn-outline-light">Postularme</button>
+			                  <!-- Botón que abre el modal -->
+							  <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#miModal">Ver</button>
+			                </div>
+			                <!-- Modal -->
+								<div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+								    <div class="modal-dialog modal-lg">
+								        <div class="modal-content text-black">
+								            <div class="modal-header">
+								                <h5 class="modal-title" id="miModalLabel">Desarrollador de Software Senior</h5>
+								                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+								            </div>
+								            <div class="modal-body">
+								                <!-- Contenido del modal -->
+								               		<p><strong>Título:</strong>Desarrollador de Software Senior</p>
+													<p><strong>Descripción:</strong> Buscamos un profesional con experiencia en el desarrollo de aplicaciones web y móviles. Deberá participar en todas las fases del ciclo de vida del software.</p>
+													<p><strong>Requisitos:</strong></p>
+													<ul>
+													    <li>Experiencia en Java y frameworks asociados.</li>
+													    <li>Conocimientos sólidos de desarrollo frontend y backend.</li>
+													    <li>Habilidades de resolución de problemas y trabajo en equipo.</li>
+													</ul>
+								                <div class="container-fluid">
+								                    
+								                </div>
+								            </div>
+								            <div class="modal-footer">
+								                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+								            </div>
+								        </div>
+								    </div>
+								</div>
+              			</div>
 			        </div>
 			      </div>
 			    </div>
@@ -87,14 +142,42 @@
 			          <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Electricista</h2>
 			          <p>Sector: Programador
 						Programador con experiencia comprobable 1 año en angular</p>
-			          <ul class="d-flex list-unstyled mt-auto">
-			            <li class="d-flex align-items-center me-3">
-			              <a class="btn btn-primary" href="/" th:href="@{/form-postulant}" role="submit"><small>Postularme</small></a>
-			            </li>
-			            <li class="d-flex align-items-center">
-			              <button type="submit" href="#" class="btn btn-outline-light px-4"><small>Ver</small></button>
-			            </li>
-			          </ul>
+			          <div class="d-flex list-unstyled mt-auto">
+			              	<!-- Botón grupal -->
+			                <div class="btn-group">
+			                  <button type="button" class="btn btn-sm btn-outline-light">Postularme</button>
+			                  <!-- Botón que abre el modal -->
+							  <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#miModal">Ver</button>
+			                </div>
+			                <!-- Modal -->
+								<div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+								    <div class="modal-dialog modal-lg">
+								        <div class="modal-content text-black">
+								            <div class="modal-header">
+								                <h5 class="modal-title" id="miModalLabel">Desarrollador de Software Senior</h5>
+								                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+								            </div>
+								            <div class="modal-body">
+								                <!-- Contenido del modal -->
+								               		<p><strong>Título:</strong>Desarrollador de Software Senior</p>
+													<p><strong>Descripción:</strong> Buscamos un profesional con experiencia en el desarrollo de aplicaciones web y móviles. Deberá participar en todas las fases del ciclo de vida del software.</p>
+													<p><strong>Requisitos:</strong></p>
+													<ul>
+													    <li>Experiencia en Java y frameworks asociados.</li>
+													    <li>Conocimientos sólidos de desarrollo frontend y backend.</li>
+													    <li>Habilidades de resolución de problemas y trabajo en equipo.</li>
+													</ul>
+								                <div class="container-fluid">
+								                    
+								                </div>
+								            </div>
+								            <div class="modal-footer">
+								                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+								            </div>
+								        </div>
+								    </div>
+								</div>
+              			</div>
 			        </div>
 			      </div>
 			    </div>
@@ -113,10 +196,7 @@
 						      </div>
 						      <h2>Inicia Sesion o Registrate</h2>
 						      <p>Inicia Sesion o Registrate  si todavia no tienes una cuenta activa para poder empezar a postularte a las ofertas laborales.</p>
-						      <a href="#" class="icon-link">
-						        Call to action
-						        <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
-						      </a>
+
 						    </div>
 						    <div class="feature col-md-4">
 						      <div class="text-primary">
@@ -126,10 +206,7 @@
 						      </div>
 						      <h2>Formulario de Postulacion</h2>
 						      <p>Cuando encuentres una oferta laboral de tu agrado postulate completando un pequeño formulario en el que podrás adjuntar cv o distintos archivos que te ayudaran a mejorar tu selección.</p>
-						      <a href="#" class="icon-link">
-						        Call to action
-						        <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
-						      </a>
+						      
 						    </div>
 						    <div class="feature col-md-4">
 						      <div class="text-primary">

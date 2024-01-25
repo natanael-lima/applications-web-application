@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+	<title>PMS</title>
+	<link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
+	<!-- Bootstrap core CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<!-- Bootstrap core CSS -->
+	<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+    <link href="style.css" rel="stylesheet">
+</head>
+</head>
+<body>
+	<!--     Inicio Header -->
+	<div th:insert="layout/header :: header"></div>
+	<!--    Fin Header -->	
+	<main>
+		  <div class="py-5 text-center container">
+		    <div class="row py-lg-5">
+		      <div class="col-lg-6 col-md-8 mx-auto">
+		        <h1 class="fw-light">Sectores</h1>
+		        <p class="lead text-muted">Sección donde se listan todos los sectores disponibles.</p>
+		        <p>
+		          <a href="#" class="btn btn-primary my-2">Sobre Nosotros</a>
+		          <a href="#" class="btn btn-outline-dark my-2">Contacto</a>
+		        </p>
+		      </div>
+		    </div>
+		  </div>
+		
+		
+		<div class="album py-5 bg-light">
+ 		 <div class="container">
+ 		 	<div class="row">
+	 			<div class="row row-cols-1 row-cols-md-2 g-4">
+				  <div class="col">
+				    <div class="card">
+				      <img src="/img/sector-prueba.jpg" class="card-img-top" alt="...">
+				      <div class="card-body">
+				        <h5 class="card-title">Desarrollo de Software</h5>
+				        <p class="card-text">Descripción: Encargado de diseñar, desarrollar, probar e implementar software de alta calidad para satisfacer las necesidades de la empresa y sus clientes..</p>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="col">
+				    <div class="card">
+				      <img src="/img/sector-prueba.jpg" class="card-img-top" alt="...">
+				      <div class="card-body">
+				        <h5 class="card-title">Seguridad Informática</h5>
+				        <p class="card-text">Descripción: Responsable de proteger la infraestructura de TI y los datos sensibles de la empresa mediante la implementación de medidas de seguridad, análisis de vulnerabilidades y gestión de incidentes.</p>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="col">
+				    <div class="card">
+				      <img src="/img/sector-prueba.jpg" class="card-img-top" alt="...">
+				      <div class="card-body">
+				        <h5 class="card-title">Análisis de Datos</h5>
+				        <p class="card-text">Descripción: Se especializa en la recopilación, procesamiento y análisis de datos para proporcionar información valiosa que respalde la toma de decisiones empresariales.</p>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="col">
+				    <div class="card">
+				      <img src="/img/sector-prueba.jpg" class="card-img-top" alt="...">
+				      <div class="card-body">
+				        <h5 class="card-title">Ingeniería Eléctrica</h5>
+				        <p class="card-text">Descripción: Se enfoca en el diseño y mantenimiento de infraestructuras eléctricas de gran escala, como redes de distribución y estaciones de transformación.</p>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="col">
+				    <div class="card">
+				      <img src="/img/sector-prueba.jpg" class="card-img-top" alt="...">
+				      <div class="card-body">
+				        <h5 class="card-title">Mantenimiento Hardware</h5>
+				        <p class="card-text">Descripción: Realiza inspecciones, reparaciones y mantenimiento preventivo en equipos electrónicos, desde electrodomésticos hasta dispositivos industriales..</p>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="col">
+				    <div class="card">
+				      <img src="/img/sector-prueba.jpg" class="card-img-top" alt="...">
+				      <div class="card-body">
+				        <h5 class="card-title">Mantenimiento de Software</h5>
+				        <p class="card-text">Descripción: Realiza inspecciones, reparaciones y mantenimiento preventivo a nivel de software a diferentes tipos de dispositivos.</p>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+ 			</div>
+ 		 </div>	
+ 		</div>		
+</main>
+	
+	<!--     Inicio Footer -->
+	<div th:insert="layout/footer :: footer"></div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>			
+</body>
+</html>
