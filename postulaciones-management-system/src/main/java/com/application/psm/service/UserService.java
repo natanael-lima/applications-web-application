@@ -5,15 +5,19 @@ import java.util.List;
 import com.application.psm.model.User;
 
 
-public interface UserService {
+public interface UserService{
 	
-	List<User> getAllUsers();
+	//List<User> getAllUsers();
 	
-	User saveEstudiante(User estudiante);
+	public User saveUser(User user);
 	
-	void deleteEstudiante(Long id);
+	public boolean checkUsername(String username);
+	//void removeSessionMessage();
 	
-	User editEstudiante(User estudiante);
+	//void deleteUser(Long id);
 	
-	User getEstudianteById(Long id);
+	//User editUser(User user);
+	
+	//User getUserById(Long id);
+	
 }

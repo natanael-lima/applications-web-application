@@ -32,29 +32,23 @@ public class User {
 	private String username;
 
 	private String password;
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(
-				name="user_roles",
-				joinColumns= @JoinColumn(
-								name="user_id", referencedColumnName = "id"),
-								inverseJoinColumns = @JoinColumn(
-										name="role_id", referencedColumnName ="id"))
 	
-							
-	private Collection<Role> roles;
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "role_id")
+	private Role role;
+
 	
 	public User() {
-		super();
 	}
 	
-	public User(String name, String lastname, String email, String username, String password, Collection<Role> roles) {
+	public User(String name, String lastname, String email, String username, String password, Role role) {
 		super();
 		this.name = name;
 		this.lastname = lastname;
 		this.email = email;
 		this.username = username;
 		this.password = password;
-		this.roles = roles;
+		this.role = role;
 	}
 	
 	public Long getId() {
@@ -93,11 +87,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Collection<Role> getRoles() {
-		return roles;
+	public Role getRoles() {
+		return role;
 	}
-	public void setRoles(Collection<Role> roles) {
-		this.roles = roles;
+	public void setRoles (Role role) {
+		this.role = role;
 	}
 	
 	

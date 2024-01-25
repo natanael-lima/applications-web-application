@@ -1,23 +1,25 @@
 package com.application.psm.model;
 
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name="role")
 public class Role {
 	@Id
-	@Column(name = "id", nullable=false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
 	private Long id;
-	@Column(name = "description", nullable=false)
-	private String description;
+	private String roleName;
+	
+	@OneToOne(mappedBy = "role",fetch = FetchType.LAZY)
+	private User user;
 	
 	public Role() {
-		super();
 	}
-	public Role(Long id, String description) {
+	public Role(String roleName) {
 		super();
-		this.id = id;
-		this.description = description;
+		this.roleName = roleName;
 	}
 	public Long getId() {
 		return id;
@@ -25,11 +27,11 @@ public class Role {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getDescription() {
-		return description;
+	public String getRoleName() {
+		return roleName;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 	
 	

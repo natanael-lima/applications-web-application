@@ -7,5 +7,5 @@ public class Postulant {
 	private Long id;
 	private User user;
 	private JobOffer jobOffer;
-	private List<Documentacion> documentacion;
+	private List<Document> documentacion;
 }
