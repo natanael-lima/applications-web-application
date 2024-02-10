@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
+<!DOCTYPE html> 
+<html xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,34 +18,37 @@
 		<header class="p-3 bg-dark text-white ">
 		  <div class="container">
 		    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-		      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+		      <a th:href="@{/home}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
 		        <img width="40" height="40" src="../img/logo.png" alt="permanent-job"/>
 		      </a>
 		
 		      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-		        <li><a href="/" class="nav-link px-2 text-white">Inicio</a></li>
-		        <li><a href="/" th:href="@{/form-job-offer}" class="nav-link px-2 text-white">Ofertas Laborales</a></li>
-		        <li><a href="/" th:href="@{/form-sector}" class="nav-link px-2 text-white">Sectores</a></li>
+		        <li><a th:href="@{/home}" class="nav-link px-2 text-white">Inicio</a></li>
+		        <li><a th:href="@{/job/form-job-offer}" class="nav-link px-2 text-white">Ofertas Laborales</a></li>
+		        <li><a th:href="@{/sector/form-sector}" class="nav-link px-2 text-white">Sectores</a></li>
+		        <li><a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{/postulant/admin}" class="nav-link px-2 text-white" sec:authorize="isAuthenticated()">Postulaciones</a></li>
 		      </ul>
 			
 			   <div th:unless="${isLoggedIn}" class="text-end">
-			        <a class="btn btn-outline-light" href="/" th:href="@{/login}" role="button">Iniciar Sesion</a>
-			        <a class="btn btn-primary" href="/" th:href="@{/registration}" role="button">Registrame</a>
-	
+			        <a class="btn btn-outline-light" href="/" th:href="@{/home/login}" role="button">Iniciar Sesion</a>
+			        <a class="btn btn-primary" href="/" th:href="@{/user/registration}" role="button">Registrame</a>
 			   </div>
 		        <!-- Botón de Cerrar Sesión -->
 		       <div th:if="${isLoggedIn}" class=" flex-shrink-0 dropdown">
 			        <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-			          	<img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+			          	<img src="/img/user-profile.png" alt="mdo" width="32" height="32" class="rounded-circle">
 			        </a>
 				    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-				          <li><a class="dropdown-item text-body-secondary" th:text="${#authentication.principal.username}" > </a></li>
-				          <li><a class="dropdown-item" th:href="@{/postulaciones}">Mis Postulaciones</a></li>
-				          <li><a class="dropdown-item" th:href="@{/user/profile}">Configuracion</a></li>
+				          <li><a class="dropdown-item text-white bg-secondary" th:text="${#authentication.principal.username}" > </a></li>
+				          <li><a class="dropdown-item" th:if="${#authorization.expression('hasRole(''VISITANTE'')')}" th:href="@{/postulant/mypostulant}">Mis Postulaciones</a></li>
+				          <li><a class="dropdown-item" th:if="${#authorization.expression('hasRole(''VISITANTE'')')}" th:href="@{/user/profile}">Configuracion</a></li>
 				          <li><hr class="dropdown-divider"></li>
-				          <li><a class="dropdown-item" th:href="@{/logout}">Cerrar Sesion</a></li>
+				          <li><a class="dropdown-item" th:href="@{/home/logout}">Cerrar Sesion</a></li>
 				     </ul>
 			    </div>
+			    
+			    
+			    
 		    </div>
 		  </div>
 	</header>
