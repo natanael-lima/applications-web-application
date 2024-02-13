@@ -12,32 +12,34 @@
     <link href="style.css" rel="stylesheet">
     
   </head>
-  <body class="text-center">
+  <body class="d-flex flex-column vh-100">
     <!--     Inicio Header -->
 	<div th:insert="layout/header :: header"></div>
 	<!--    Fin Header -->
-	
-	<section class="row">
+	<main class="flex-grow-1">
+	<section class="container">
+		<div class="row mt-5">
 			<div class="col-6 col-md-6 col-sm-12 col-lg-6 text-center" th:if="${user != null}">
-			<h1>Profile Page</h1>
-				<p>Nombre: <span th:text="${user.name}"></span></p>
-				<p>Apellido: <span th:text="${user.lastname}"></span></p>
-				<p>Email: <span th:text="${user.email}"></span></p>
-				<p>Usuario: <span th:text="${user.username}"></span></p>
-		
-	    		 <button class=" btn btn-sm btn-primary" type="submit">Editar</button>
-	      		 <button class=" btn btn-sm btn-primary" type="submit">Eliminar</button>
-	             <button class="btn btn-sm btn-primary" type="submit">Cerrar Sesion</button>
+			<h1 class="mt-5">Datos de Mi Perfil</h1>
+				<p>Nombre:  <strong> <span th:text="${user.name}"></span></strong></p>
+				<p>Apellido:  <strong> <span th:text="${user.lastname}"></span></strong></p>
+				<p>Email:  <strong><span th:text="${user.email}"></span></strong></p>
+				<p>Username:  <strong><span th:text="${user.username}"></span></strong></p>
+				<p>Password:  <strong><span>*********</span></strong></p>
+	    		 <button class=" btn btn-sm btn-dark" type="submit">Editar</button>
+	      		 <button class=" btn btn-sm btn-dark" type="submit">Dar de Baja</button>
+	             <button class="btn btn-sm btn-dark" type="submit">Cerrar Sesion</button>
 			</div>
-			<div class="col-6 col-md-6 col-sm-12 col-lg-6">
-					<p>imagen de algo</p>
+			<div class="col-6 col-md-6 col-sm-12 col-lg-6 p-0  text-center mt-5">
+					<img src="/img/img-user.png" width="300" class="rounded mx-auto d-block" alt="...">
 			</div>
+		</div>
 	</section>
 
-	<section th:unless="${user != null}">
+	<section th:unless="${user != null}" class="text-center">
     <p>User not available</p>
 	</section>
-	
+	</main>
 
 	<!--     Inicio Header -->
 	<div th:insert="layout/footer :: footer"></div>

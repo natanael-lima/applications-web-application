@@ -24,14 +24,14 @@
 		
 		      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 		        <li><a th:href="@{/home}" class="nav-link px-2 text-white">Inicio</a></li>
-		        <li><a th:href="@{/job/form-job-offer}" class="nav-link px-2 text-white">Ofertas Laborales</a></li>
-		        <li><a th:href="@{/sector/form-sector}" class="nav-link px-2 text-white">Sectores</a></li>
+		        <li><a th:href="@{/job/all-jobs}" class="nav-link px-2 text-white">Ofertas Laborales</a></li>
+		        <li><a th:href="@{/sector/all-sectors}" class="nav-link px-2 text-white">Sectores</a></li>
 		        <li><a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{/postulant/admin}" class="nav-link px-2 text-white" sec:authorize="isAuthenticated()">Postulaciones</a></li>
 		      </ul>
 			
 			   <div th:unless="${isLoggedIn}" class="text-end">
-			        <a class="btn btn-outline-light" href="/" th:href="@{/home/login}" role="button">Iniciar Sesion</a>
-			        <a class="btn btn-primary" href="/" th:href="@{/user/registration}" role="button">Registrame</a>
+			        <a class="btn btn-outline-light" href="/" th:href="@{/user/login-user}" role="button">Iniciar Sesion</a>
+			        <a class="btn btn-primary" href="/" th:href="@{/user/new-user}" role="button">Registrame</a>
 			   </div>
 		        <!-- Botón de Cerrar Sesión -->
 		       <div th:if="${isLoggedIn}" class=" flex-shrink-0 dropdown">
@@ -40,10 +40,10 @@
 			        </a>
 				    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
 				          <li><a class="dropdown-item text-white bg-secondary" th:text="${#authentication.principal.username}" > </a></li>
-				          <li><a class="dropdown-item" th:if="${#authorization.expression('hasRole(''VISITANTE'')')}" th:href="@{/postulant/mypostulant}">Mis Postulaciones</a></li>
+				          <li><a class="dropdown-item" th:if="${#authorization.expression('hasRole(''VISITANTE'')')}" th:href="@{/postulant/user}">Mis Postulaciones</a></li>
 				          <li><a class="dropdown-item" th:if="${#authorization.expression('hasRole(''VISITANTE'')')}" th:href="@{/user/profile}">Configuracion</a></li>
 				          <li><hr class="dropdown-divider"></li>
-				          <li><a class="dropdown-item" th:href="@{/home/logout}">Cerrar Sesion</a></li>
+				          <li><a class="dropdown-item" th:href="@{/user/logout}">Cerrar Sesion</a></li>
 				     </ul>
 			    </div>
 			    

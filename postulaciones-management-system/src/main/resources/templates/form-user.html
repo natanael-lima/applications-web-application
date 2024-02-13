@@ -5,16 +5,14 @@
 <meta charset="UTF-8">
 <title>PMS</title>
 </head>
-<body>
-
+<body class="d-flex flex-column vh-100">
 	<!--     Inicio Header -->
 	<div th:insert="layout/header :: header"></div>
 	<!--    Fin Header -->
-
-
+	<main class="flex-grow-1">
 	<div class="container">
 		<div class="row mt-5 mb-5">
-			<div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+			<div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card mt-5">
 				<!-- Mostrar mensaje de error 
 				<div th:if="${session.error}" class="alert alert-danger" role="alert">
 				    [[${session.error}]]
@@ -25,11 +23,10 @@
 				    [[${session.success}]]
 				</div>-->
 	
-				  	
-				<!-- form -->	
+				<!-- formulario registrar usuario -->	
 				<h1 class="text-center p-2">Formulario Nuevo Usuario</h1>
 				<div class="card-body">
-					<form th:action="@{/user/registration}" method="post" th:object="${user}">
+					<form th:action="@{/user/registration-user}" method="post" th:object="${user}">
 						  <div class="row mb-3">
 						    <label for="inputEmail3" class="col-sm-2 col-form-label">Nombre</label>
 						    <div class="col-sm-10">
@@ -77,7 +74,7 @@
 					        </div>
 					
 					        <div class="form-group text-center p-2">
-					            <span>¿Ya tienes una cuenta? <a href="/" th:href="@{/home/login}">Ingresa Aquí</a></span>
+					            <span>¿Ya tienes una cuenta? <a href="/" th:href="@{/user/login}">Ingresa Aquí</a></span>
 					        </div>
 					        <!-- success message -->
 							<div th:if="${param.success}" id="successMessage">
@@ -86,22 +83,11 @@
 								</div>
 							</div>
 					</form>
-						
-						
-					
 				</div>
 			</div>
 		</div>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
 	</div>
-
+	</main>
 	<!--     Inicio Header -->
 	<div th:insert="layout/footer :: footer"></div>
 <script type="text/javascript" src="js/script.js"></script>

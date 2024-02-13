@@ -12,20 +12,26 @@
     <link href="style.css" rel="stylesheet">
     
   </head>
-  <body class="text-center">
+  <body class="d-flex flex-column vh-100">
     <!--     Inicio Header -->
 	<div th:insert="layout/header :: header"></div>
 	<!--    Fin Header -->
-	
-	<section class="container">
+	<main class="flex-grow-1">
+	<section class="container text-center">
 		<div  class="row">
 			<div class="col-12 col-md-12 col-sm-12 col-lg-12 text-center">
-			<h1>Mis Postulaciones</h1>
-			
+			<h1 class="mt-5">Mis Postulaciones</h1>
+			<div class="table-reponsive">
 			<table class="table table-hover table-striped table-bordered table-sm">
 			  <thead>
 			    <tr>
-			      <th scope="col">#</th>
+			      <th >Nombre</th>
+			      <th >Apellido</th>
+			      <th >Email</th>
+			      <th >Edad</th>
+			      <th >Telefono</th>
+			      <th >Estudios</th>
+			      <th >Direccion</th>
 			      <th scope="col">Oferta Laboral</th>
 			      <th scope="col">Estado</th>
 			      <th scope="col">Action</th>
@@ -33,24 +39,29 @@
 			  </thead>
 			  <tbody>
 				  <tr th:each = "postulant: ${postulants}">
-				  		<td th:text = "${postulant.id}" ></td>
+				  		<td th:text = "${postulant.user.name}" ></td>
+					    <td th:text = "${postulant.user.lastname}" ></td>
+					    <td th:text = "${postulant.user.email}" ></td>
+				        <td th:text = "${postulant.age}" ></td>
+					    <td th:text = "${postulant.phone}" ></td>
+					    <td th:text = "${postulant.studies}" ></td>
+					    <td th:text = "${postulant.address}" ></td>
 					    <td th:text = "${postulant.jobOffer.title}" ></td>
 					    <td th:text = "${postulant.estado}" ></td>
-					    <td th:if="${postulant.estado == 'pendiente'}" ><a class="btn btn-danger btn-sm mb-3"> Cancelar</a>
-					  	    <a  class="btn btn-primary btn-sm mb-3"> Ver</a>
+					    <td th:if="${postulant.estado == 'pendiente'}" ><a class="btn btn-danger btn-sm"> Cancelar</a>
+					  	    <a  class="btn btn-dark btn-sm"> Modificar</a>
 					    </td>
 				    </tr>
 			  </tbody>
 			</table>
-				
+			</div>	
 			</div>
 			</div>
 	</section>
-
-	<section th:unless="${user != null}">
+	<section th:unless="${user != null}" class="text-center">
     <p>User not available</p>
 	</section>
-	
+	</main>
 
 	<!--     Inicio Header -->
 	<div th:insert="layout/footer :: footer"></div>

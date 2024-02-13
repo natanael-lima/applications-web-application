@@ -8,7 +8,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,7 +40,7 @@ public class PostulantController {
 	@Autowired 
 	private UserService userService;
 
-	@GetMapping("/nuevo")
+	@GetMapping("/new-postulant")
 	public String showPostulantForm(Model model, @AuthenticationPrincipal UserDetails userDetails, @RequestParam("jobId") Long jobId) {
 	    boolean isLoggedIn = userDetails != null;
 	 // Obtener el Job seleccionado
@@ -53,7 +53,7 @@ public class PostulantController {
 		return "form-postulant";
 	}
 	
-	@PostMapping("/form-postulant")
+	@PostMapping("/registration-postulant")
 	public String savePostulant(@ModelAttribute("postulante") Postulant postulant, @RequestParam("jobId") Long jobId, @RequestParam("pdfFile") MultipartFile pdfFile, @AuthenticationPrincipal UserDetails userDetails) {
 		// Manejar el archivo PDF
         if (!pdfFile.isEmpty()) {
@@ -110,20 +110,20 @@ public class PostulantController {
                 model.addAttribute("postulants", postulantService.getAllPostulants());
                 boolean isLoggedIn = userDetails != null;
                 model.addAttribute("isLoggedIn", isLoggedIn);
-                return "postulants";
+                return "admin-postulants";
             } else {
                 // Si el usuario no es administrador, redireccionar a una página de error 404
                 return "/layout/error/403";
             }
         } else {
             // Manejar el caso cuando el usuario no está autenticado
-            return "redirect:/login";
+        	 return "redirect:/user/login-user";
         }
 	}
 
 	
 	@Secured("hasRole('VISITANTE')")
-	@GetMapping("/mypostulant")
+	@GetMapping("/user")
 	public String mypostulantsShow(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		if (userDetails != null) {
             // Verificar si el usuario tiene el rol de visitante
@@ -142,14 +142,14 @@ public class PostulantController {
                 List<Postulant> postulants = postulantService.getAllPostulantsByUserId(userId);
                 model.addAttribute("postulants", postulants);
         	    
-                return "my-postulations";
+                return "user-postulants";
             } else {
                 // Si el usuario es administrador, redireccionar a una página de error 404
                 return "/layout/error/403";
             }
         } else {
             // Manejar el caso cuando el usuario no está autenticado
-            return "redirect:/login";
+            return "redirect:/user/login-user";
         }
 	}
 	
