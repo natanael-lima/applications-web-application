@@ -1,7 +1,5 @@
 package com.application.psm.service;
 
-import java.util.List;
-
 import com.application.psm.model.User;
 
 
@@ -14,6 +12,8 @@ public interface UserService{
 	public boolean checkUsername(String username);
 	
 	public User findByUsername (String username);
+	
+	public String getUserRole (String username);
 	//void removeSessionMessage();
 	
 	//void deleteUser(Long id);

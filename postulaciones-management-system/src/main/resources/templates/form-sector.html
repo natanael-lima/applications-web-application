@@ -23,8 +23,8 @@
 		        <h1 class="fw-light">Sectores</h1>
 		        <p class="lead text-muted">Sección donde se listan todos los sectores disponibles.</p>
 		        <p>
-		          <a href="#" class="btn btn-primary my-2">Sobre Nosotros</a>
-		          <a href="#" class="btn btn-outline-dark my-2">Contacto</a>
+		          <a class="btn btn-primary my-2" th:href="@{/sector/nuevo}" th:if="${#authorization.expression('hasRole(''ADMIN'')')}" sec:authorize="isAuthenticated()" >Añadir Sector</a>
+		          <a href="#" class="btn btn-outline-dark my-2">Mas Info</a>
 		        </p>
 		      </div>
 		    </div>
@@ -32,66 +32,19 @@
 		
 		
 		<div class="album py-5 bg-light">
- 		 <div class="container">
- 		 	<div class="row">
-	 			<div class="row row-cols-1 row-cols-md-2 g-4">
-				  <div class="col">
-				    <div class="card">
-				      <img src="/img/sector-prueba.jpg" class="card-img-top" alt="...">
-				      <div class="card-body">
-				        <h5 class="card-title">Desarrollo de Software</h5>
-				        <p class="card-text">Descripción: Encargado de diseñar, desarrollar, probar e implementar software de alta calidad para satisfacer las necesidades de la empresa y sus clientes..</p>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="col">
-				    <div class="card">
-				      <img src="/img/sector-prueba.jpg" class="card-img-top" alt="...">
-				      <div class="card-body">
-				        <h5 class="card-title">Seguridad Informática</h5>
-				        <p class="card-text">Descripción: Responsable de proteger la infraestructura de TI y los datos sensibles de la empresa mediante la implementación de medidas de seguridad, análisis de vulnerabilidades y gestión de incidentes.</p>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="col">
-				    <div class="card">
-				      <img src="/img/sector-prueba.jpg" class="card-img-top" alt="...">
-				      <div class="card-body">
-				        <h5 class="card-title">Análisis de Datos</h5>
-				        <p class="card-text">Descripción: Se especializa en la recopilación, procesamiento y análisis de datos para proporcionar información valiosa que respalde la toma de decisiones empresariales.</p>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="col">
-				    <div class="card">
-				      <img src="/img/sector-prueba.jpg" class="card-img-top" alt="...">
-				      <div class="card-body">
-				        <h5 class="card-title">Ingeniería Eléctrica</h5>
-				        <p class="card-text">Descripción: Se enfoca en el diseño y mantenimiento de infraestructuras eléctricas de gran escala, como redes de distribución y estaciones de transformación.</p>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="col">
-				    <div class="card">
-				      <img src="/img/sector-prueba.jpg" class="card-img-top" alt="...">
-				      <div class="card-body">
-				        <h5 class="card-title">Mantenimiento Hardware</h5>
-				        <p class="card-text">Descripción: Realiza inspecciones, reparaciones y mantenimiento preventivo en equipos electrónicos, desde electrodomésticos hasta dispositivos industriales..</p>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="col">
-				    <div class="card">
-				      <img src="/img/sector-prueba.jpg" class="card-img-top" alt="...">
-				      <div class="card-body">
-				        <h5 class="card-title">Mantenimiento de Software</h5>
-				        <p class="card-text">Descripción: Realiza inspecciones, reparaciones y mantenimiento preventivo a nivel de software a diferentes tipos de dispositivos.</p>
-				      </div>
+ 		 	<div class="container">
+	 			<div class="row row-cols-1 row-cols-md-2 g-4 " >
+				  <div class="col" th:each="sector : ${sectors}">
+				    <div class="card" >
+				      <img th:src="${sector.urlImg}" class="card-img-top" alt="...">
+				      	<div class="card-body">
+					        <h5 class="card-title" th:text="${sector.name}">Desarrollo de Software</h5>
+					        <p class="card-text" th:text="${sector.description}">Descripción: Encargado de diseñar, desarrollar, probar e implementar software de alta calidad para satisfacer las necesidades de la empresa y sus clientes..</p>
+				      	</div>
 				    </div>
 				  </div>
 				</div>
- 			</div>
- 		 </div>	
+ 		 	</div>	
  		</div>		
 </main>
 	

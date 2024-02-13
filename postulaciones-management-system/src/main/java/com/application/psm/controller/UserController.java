@@ -1,6 +1,8 @@
 package com.application.psm.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -15,7 +17,7 @@ import com.application.psm.service.UserService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/registration")
+@RequestMapping("/user")
 public class UserController {
 	
 	private UserService userService;
@@ -26,13 +28,13 @@ public class UserController {
 	}
 
 
-	@GetMapping
+	@GetMapping("/registration")
 	public String showUserForm(Model model) {
 		model.addAttribute("user", new User()); // Asegúrate de que el objeto 'user' esté en el modelo
 		return "registration";
 	}
 	
-	@PostMapping
+	@PostMapping("/registration")
 	public String saveUserAccount(@ModelAttribute("user") User user, HttpSession session) {
 		
 		boolean f = userService.checkUsername(user.getUsername());
@@ -55,5 +57,27 @@ public class UserController {
 		return "redirect:/registration?success";
 	}
 	
+	
+	@GetMapping("/profile")
+	public String profileShow(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		// Lógica para determinar si el usuario está logueado
+	    boolean isLoggedIn = userDetails != null;
 
+	    // Puedes agregar más lógica si es necesario
+	    model.addAttribute("isLoggedIn", isLoggedIn);
+
+	    // Obtén el nombre del usuario directamente desde userDetails
+	    if (isLoggedIn) {
+	        String username = userDetails.getUsername();
+	        model.addAttribute("username", username);
+	        System.out.println("datos---------------------:" + username);
+	        
+	        // También agrega el objeto user al modelo si es necesario
+	        User user = userService.findByUsername(username);
+	        model.addAttribute("user", user);
+	    }
+		return "profile";
+	}
+
+    
 }
