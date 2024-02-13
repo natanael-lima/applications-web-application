@@ -11,19 +11,19 @@
 	<!-- Custom styles for this template -->
     <link href="style.css" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex flex-column vh-100">
 	<!--     Inicio Header -->
 	<div th:insert="layout/header :: header"></div>
 	<!--    Fin Header -->
-	
+	<main class="flex-grow-1" >
 	<div class="container">
 	   <div class="row mt-5 mb-5">
-		   <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+		   <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card mt-5">
 				<h1 class="text-center p-2">Formulario de Postulacion</h1>
 				<div class="card-body mb-2">
 				<!-- form -->
-					<form class="was-validated" th:action = "@{/postulant/form-postulant}" th:object = "${postulante}" method="POST" enctype="multipart/form-data">
-						<div class="row p-2">
+					<form class="was-validated" th:action = "@{/postulant/registration-postulant}" th:object = "${postulante}" method="POST" enctype="multipart/form-data">
+						<!--<div class="row p-2">
 						  <div class="col-md-4 col-lg-4 col-sm-12">
 						    <label for="validationServer01" class="form-label">Nombres</label>
 						    <input type="text" class="form-control is-valid" id="validationServer01" value="Miguel..." required>
@@ -39,7 +39,7 @@
 						    <input type="text" class="form-control is-valid" id="validationServer02" value="miguel20@hotmail.com" required>
 						    <div class="invalid-feedback">Por favor complete el campo apellido.</div>
 						  </div>	
-						</div>
+						</div>  -->
 						<div class="row p-2">
 						  <div class="col-md-6 col-lg-6 col-sm-12">
 						    <label for="validationServer01" class="form-label">Edad</label>
@@ -100,7 +100,7 @@
 			</div>
 		</div>
 	</div>
-	
+	</main>
 	 
 	<!--     Inicio Header -->
 	<div th:insert="layout/footer :: footer"></div>

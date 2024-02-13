@@ -39,30 +39,28 @@ public class SecurityConfiguration {
 		http.csrf().disable()
         .authorizeRequests(authorizeRequests ->
             authorizeRequests
-                .requestMatchers("/user/registration", "/js/**", "/css/**", "/img/**").permitAll()
+                .requestMatchers("/user/new-user","/home","/sector/all-sectors","/job/all-jobs","/js/**", "/css/**", "/img/**").permitAll()
                 .requestMatchers("/visitante/**").hasRole("VISITANTE") // Requiere rol USER
                 .requestMatchers("/admin**").hasRole("ADMIN") // Requiere rol ADMIN
                 .anyRequest().authenticated()
         )
         .formLogin(formLogin ->
             formLogin
-                .loginPage("/home/login").permitAll()
+                .loginPage("/user/login-user").permitAll()
                 .defaultSuccessUrl("/home", true) // Redirige a "/home" después de un inicio de sesión exitoso
         )
         .logout(logout ->
             logout
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/home/logout"))
-                .logoutSuccessUrl("/home/login?logout").permitAll()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                .logoutSuccessUrl("/user/login-user?logout").permitAll()
         );
 		return http.build();
 	}
 
 }
 
-	  
-	 
 	  
 	/*  
 	 * @Autowired
@@ -72,9 +70,6 @@ public class SecurityConfiguration {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-	
-	
-	
 	
 	@Bean
     public DaoAuthenticationProvider authenticationProvider() {
