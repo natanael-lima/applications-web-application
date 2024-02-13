@@ -1,13 +1,12 @@
-@charset "ISO-8859-1";
+/*DiseÃ±o de Login*/
 body {
   display: flex;
   align-items: center;
-  padding-top: 40px;
+  padding-top: 200px;
   padding-bottom: 40px;
   background-color: #f5f5f5;
 }
 
-/*Diseño de Login*/
 .form-signin {
   width: 100%;
   max-width: 330px;
