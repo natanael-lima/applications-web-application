@@ -2,14 +2,10 @@ package com.application.psm.config;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import com.application.psm.model.Role;
 import com.application.psm.model.User;
 
@@ -18,7 +14,6 @@ public class CustomUserDetails implements UserDetails{
 
 	private User user;
 	
-	private Collection<Role> roles;
 
 
 	public CustomUserDetails(User user) {

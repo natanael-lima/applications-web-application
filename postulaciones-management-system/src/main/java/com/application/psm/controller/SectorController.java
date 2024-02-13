@@ -19,30 +19,28 @@ public class SectorController {
 	@Autowired
 	private SectorService sectorService;
 	
-	@GetMapping("/form-sector")
+	@GetMapping("/all-sectors")
 	public String sectorShowAll(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		// Lógica para determinar si el usuario está logueado
 	    boolean isLoggedIn = userDetails != null;
-
 	    // Puedes agregar más lógica si es necesario
 	    model.addAttribute("sectors", sectorService.getAllSectors()); // Asegúrate de que el objeto 'user' esté en el modelo
 	    model.addAttribute("isLoggedIn", isLoggedIn);
-		return "form-sector";
+		return "publishing-sector";
 	}
-	@GetMapping("/nuevo")
+	@GetMapping("/new-sector")
 	public String sectorShowForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 	    boolean isLoggedIn = userDetails != null;
 	    Sector sector = new Sector();
 	    model.addAttribute("sector", sector);
 	    model.addAttribute("isLoggedIn", isLoggedIn);
-	    return "sector";
+	    return "form-sector";
 	}
 
 	
-	@PostMapping("/registration")
+	@PostMapping("/registration-sector")
 	public String saveSector(@ModelAttribute("sector") Sector sector) {
-
 		sectorService.saveSector(sector);
-		return "redirect:/sector/form-sector";
+		return "redirect:/sector/all-sectors";
 	}
 }

@@ -25,31 +25,30 @@ public class JobOfferController {
 	@Autowired
 	private SectorService sectorService;
 	
-	@GetMapping("/form-job-offer")
+	@GetMapping("/all-jobs")
 	public String jobOfferForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		// Lógica para determinar si el usuario está logueado
 	    boolean isLoggedIn = userDetails != null;
 	    // Puedes agregar más lógica si es necesario
 	    model.addAttribute("isLoggedIn", isLoggedIn);
-	    
 	    model.addAttribute("sectors", sectorService.getAllSectors());
 	    model.addAttribute("jobs", jobService.getAllJobOffer()); // Asegúrate de que el objeto 'user' esté en el modelo
 		model.addAttribute("userDetails", userDetails); // Asegúrate de que el objeto 'userDetails' esté en el modelo
-		return "form-job-offer";
+		return "publishing-job";
 	}
 	
-	@GetMapping("/nuevo")
+	@GetMapping("/new-job")
 	public String jobShowForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 	    boolean isLoggedIn = userDetails != null;
 	    JobOffer job = new JobOffer();
 	    model.addAttribute("job", job);
 	    model.addAttribute("sectors", sectorService.getAllSectors());
 	    model.addAttribute("isLoggedIn", isLoggedIn);
-	    return "job";
+	    return "form-job";
 	}
 
 	
-	@PostMapping("/registration")
+	@PostMapping("/registration-job")
 	public String saveJobOffer(@ModelAttribute("sector") JobOffer job, @RequestParam("sectorId") Long sectorId) {
 		//sectorId es el valor que eligue el usuario en form tiene que tener campo id="sectorId" etc
 		 // Obtener el Sector seleccionado
@@ -58,6 +57,6 @@ public class JobOfferController {
 	    job.setSector(sector);
 	    // Guardar la JobOffer
 		jobService.saveJobOffer(job);
-		return "redirect:/job/form-job-offer";
+		return "redirect:/job//all-jobs";
 	}
 }
