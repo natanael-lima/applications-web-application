@@ -23,7 +23,7 @@ public class SecurityConfiguration {
 
 	@Bean
 	public UserDetailsService getDetailsService() {
-		return new CustomUserDetailsService();
+		return new CustomUserDetailsServiceImp();
 	}
 
 	@Bean
@@ -39,20 +39,22 @@ public class SecurityConfiguration {
 		http.csrf().disable()
         .authorizeRequests(authorizeRequests ->
             authorizeRequests
-                .requestMatchers("/registration", "/js/**", "/css/**", "/img/**").permitAll()
-                .requestMatchers("/user/**").authenticated()
+                .requestMatchers("/user/registration", "/js/**", "/css/**", "/img/**").permitAll()
+                .requestMatchers("/visitante/**").hasRole("VISITANTE") // Requiere rol USER
+                .requestMatchers("/admin**").hasRole("ADMIN") // Requiere rol ADMIN
+                .anyRequest().authenticated()
         )
         .formLogin(formLogin ->
             formLogin
-                .loginPage("/login").permitAll()
-                //.defaultSuccessUrl("/home", true) // Redirige a "/home" después de un inicio de sesión exitoso
+                .loginPage("/home/login").permitAll()
+                .defaultSuccessUrl("/home", true) // Redirige a "/home" después de un inicio de sesión exitoso
         )
         .logout(logout ->
             logout
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout").permitAll()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/home/logout"))
+                .logoutSuccessUrl("/home/login?logout").permitAll()
         );
 		return http.build();
 	}

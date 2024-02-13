@@ -54,9 +54,25 @@ public class UserServiceImp implements UserService{
 		// TODO Auto-generated method stub
 		return userRepository.findByUsername(username);
 	}
+
+
+	@Override
+	public String getUserRole(String username) {
+		User user = userRepository.findByUsername(username);
+        if (user != null) {
+            Long roleId = user.getRoles().getId();
+            Role role = roleRepository.findById(roleId).orElse(null);
+            if (role != null) {
+                return role.getRoleName();
+            }
+        }
+        return null;
+	}
+	
+	
+	
 }
 
-	
 	/*@Override
 	public User saveUser(User user) {
 		User newuser = new User(user.getFirstName(), 
