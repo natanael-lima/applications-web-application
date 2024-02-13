@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.application.psm.model.Postulant;
+import com.application.psm.model.User;
 import com.application.psm.repository.PostulantRepository;
+import com.application.psm.repository.UserRepository;
 import com.application.psm.service.PostulantService;
 
 
@@ -15,6 +17,8 @@ public class PostulantServiceImp implements PostulantService{
 	
 	@Autowired
 	private PostulantRepository postulantRepository;
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Override
 	public List<Postulant> getAllPostulants() {
@@ -41,9 +45,9 @@ public class PostulantServiceImp implements PostulantService{
 	}
 
 	@Override
-	public Postulant getUserById(Long id) {
+	public Postulant getPostulantById(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+		return postulantRepository.findById(id).get();
 	}
 
 	@Override
@@ -53,9 +57,13 @@ public class PostulantServiceImp implements PostulantService{
 	}
 
 	@Override
-	public Postulant findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<Postulant> getAllPostulantsByUserId(Long id) {
+		 User user = userRepository.findById(id).orElse(null);
+	        if (user != null) {
+	            return user.getPostulations();
+	        }
+	        return null;
+    }
+
 
 }

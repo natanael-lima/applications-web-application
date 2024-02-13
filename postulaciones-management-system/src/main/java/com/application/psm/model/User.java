@@ -105,6 +105,14 @@ public class User {
 	public void setRoles (Role role) {
 		this.role = role;
 	}
+
+	public List<Postulant> getPostulations() {
+		return postulations;
+	}
+
+	public void setPostulations(List<Postulant> postulations) {
+		this.postulations = postulations;
+	}
 	
 	
 	

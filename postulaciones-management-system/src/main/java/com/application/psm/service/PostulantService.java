@@ -14,11 +14,11 @@ public interface PostulantService {
 	
 	public Postulant editPostulant(Postulant postulant);
 	
-	public Postulant getUserById(Long id);
+	public Postulant getPostulantById(Long id);
 		
 	public boolean checkPostulant(String name);
 	
-	public Postulant findByName (String name);
+	public List<Postulant> getAllPostulantsByUserId (Long id);
 	
 	//public String getUserRole (String username);
 	

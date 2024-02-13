@@ -64,7 +64,6 @@ public class UserController {
 	    boolean isLoggedIn = userDetails != null;
 
 	    // Puedes agregar más lógica si es necesario
-	    System.out.println("entre---------------:");
 	    model.addAttribute("isLoggedIn", isLoggedIn);
 
 	    // Obtén el nombre del usuario directamente desde userDetails
