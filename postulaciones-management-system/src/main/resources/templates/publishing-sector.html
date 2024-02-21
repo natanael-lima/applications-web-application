@@ -39,7 +39,10 @@
 				      <img th:src="${sector.urlImg}" class="card-img-top" alt="...">
 				      	<div class="card-body">
 					        <h5 class="card-title" th:text="${sector.name}">Desarrollo de Software</h5>
-					        <p class="card-text" th:text="${sector.description}">Descripción: Encargado de diseñar, desarrollar, probar e implementar software de alta calidad para satisfacer las necesidades de la empresa y sus clientes..</p>
+					        <p class="card-text" th:text="${sector.description}">Descripción: Encargado de diseñar, desarrollar, probar e implementar software de alta calidad para satisfacer las necesidades de la empresa y sus clientes.</p>
+					      		<a type="button" class="btn btn-sm btn-primary" th:href ="@{/sector/edit-sector/{id}(id=${sector.id})}" th:if="${#authorization.expression('hasRole(''ADMIN'')')}" sec:authorize="isAuthenticated()">Editar</a>
+					      		<a type="button" class="btn btn-sm btn-danger" th:href ="@{/sector/delete-sector/{id}(id=${sector.id})}" th:if="${#authorization.expression('hasRole(''ADMIN'')')}" sec:authorize="isAuthenticated()">Eliminar</a>
+		
 				      	</div>
 				    </div>
 				  </div>

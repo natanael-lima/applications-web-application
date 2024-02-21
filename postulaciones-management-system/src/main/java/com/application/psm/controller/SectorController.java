@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.application.psm.model.Sector;
@@ -19,6 +20,7 @@ public class SectorController {
 	@Autowired
 	private SectorService sectorService;
 	
+	//============================ Metodo para mostrar todos los sectors ============================
 	@GetMapping("/all-sectors")
 	public String sectorShowAll(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		// Lógica para determinar si el usuario está logueado
@@ -28,6 +30,8 @@ public class SectorController {
 	    model.addAttribute("isLoggedIn", isLoggedIn);
 		return "publishing-sector";
 	}
+	
+	//============================ Metodo para mostrar formulario ============================
 	@GetMapping("/new-sector")
 	public String sectorShowForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 	    boolean isLoggedIn = userDetails != null;
@@ -36,11 +40,42 @@ public class SectorController {
 	    model.addAttribute("isLoggedIn", isLoggedIn);
 	    return "form-sector";
 	}
-
 	
+	//============================ Metodo para registrar un sector ============================
 	@PostMapping("/registration-sector")
 	public String saveSector(@ModelAttribute("sector") Sector sector) {
-		sectorService.saveSector(sector);
+		if (sector.getId() == null) {
+	        // Crear un nuevo sector
+	        sectorService.saveSector(sector);
+	    } else {
+	        // Editar un sector existente
+	        sectorService.editSector(sector);
+	    }
 		return "redirect:/sector/all-sectors";
 	}
+	
+	//============================ Metodo para editar un sector ============================
+	@GetMapping("/edit-sector/{id}")
+	public String editSector(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+	    boolean isLoggedIn = userDetails != null;
+	    Sector sector = sectorService.getSectorById(id);
+	    model.addAttribute("sector", sector);
+	    model.addAttribute("isLoggedIn", isLoggedIn);
+	    return "form-sector";
+	}
+	
+	//============================ Metodo para eliminar un sector ============================
+	@GetMapping("/delete-sector/{id}")
+	public String deleteSector(@PathVariable Long id, Model model) {
+		// Verificar si el job está relacionado con un sector
+		   if (sectorService.isJobRelatedToSector(id)) {
+		    	return "/layout/error/400";
+		    }else {
+				sectorService.deleteSector(id);
+				return "redirect:/sector/all-sectors";
+		    }
+		
+	}
+	
+	
 }

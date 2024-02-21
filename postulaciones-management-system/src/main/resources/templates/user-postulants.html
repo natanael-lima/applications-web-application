@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
+    <title>PMS</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
     <!-- Bootstrap core CSS -->
@@ -14,7 +14,7 @@
   </head>
   <body class="d-flex flex-column vh-100">
     <!--     Inicio Header -->
-	<div th:insert="layout/header :: header"></div>
+	<div th:insert="~{layout/header :: header}"></div>
 	<!--    Fin Header -->
 	<main class="flex-grow-1">
 	<section class="container text-center">
@@ -48,9 +48,11 @@
 					    <td th:text = "${postulant.address}" ></td>
 					    <td th:text = "${postulant.jobOffer.title}" ></td>
 					    <td th:text = "${postulant.estado}" ></td>
-					    <td th:if="${postulant.estado == 'pendiente'}" ><a class="btn btn-danger btn-sm"> Cancelar</a>
-					  	    <a  class="btn btn-dark btn-sm"> Modificar</a>
+					    <td th:if="${postulant.estado == 'pendiente'}">
+					  	     <a th:href ="@{/postulant/update-postulant/{id}(id=${postulant.id})}"  class="btn btn-primary btn-sm"> Editar</a>
+					  	     <a th:href ="@{/postulant/delete-postulant/{id}(id=${postulant.id})}" class="btn btn-danger btn-sm"> Cancelar</a>
 					    </td>
+					
 				    </tr>
 			  </tbody>
 			</table>

@@ -1,11 +1,10 @@
 package com.application.psm.service.imp;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
-
 import com.application.psm.model.Sector;
+import com.application.psm.repository.JobOfferRepository;
 import com.application.psm.repository.SectorRepository;
 import com.application.psm.service.SectorService;
 
@@ -13,6 +12,9 @@ import com.application.psm.service.SectorService;
 public class SectorServiceImp implements SectorService{
 	@Autowired
 	private SectorRepository sectorRepository;
+	
+	@Autowired
+	private JobOfferRepository jobRepository;
 	
 	@Override
 	public List<Sector> getAllSectors() {
@@ -42,6 +44,12 @@ public class SectorServiceImp implements SectorService{
 	public Sector getSectorById(Long id) {
 		// TODO Auto-generated method stub
 		return sectorRepository.findById(id).get();
+	}
+
+	@Override
+	public boolean isJobRelatedToSector(Long id) {
+		// Lógica para determinar si el trabajo está relacionado con algún sector
+        return jobRepository.existsById(id);
 	}
 
 }

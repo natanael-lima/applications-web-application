@@ -9,5 +9,5 @@ import com.application.psm.model.Postulant;
 
 @Repository
 public interface PostulantRepository extends JpaRepository<Postulant,Long>{
-	 List<Postulant> findPostulantByUserId(Long userId);
+	 //List<Postulant> findPostulantByUserId(Long userId);
 }

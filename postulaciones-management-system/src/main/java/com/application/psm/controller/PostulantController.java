@@ -39,61 +39,97 @@ public class PostulantController {
 	private PostulantService postulantService;
 	@Autowired 
 	private UserService userService;
-
+	
+	//============================ Metodo para mostrar formulario ============================
 	@GetMapping("/new-postulant")
 	public String showPostulantForm(Model model, @AuthenticationPrincipal UserDetails userDetails, @RequestParam("jobId") Long jobId) {
 	    boolean isLoggedIn = userDetails != null;
-	 // Obtener el Job seleccionado
+	    // Obtener el Job seleccionado
 	 	JobOffer job = jobService.getJobOfferById(jobId);
-	 	System.out.println("JobId recibido: " + jobId); // Agrega esta línea para imprimir el jobId en la consola
 	    Postulant postulant = new Postulant();
 	    model.addAttribute("job", job);
-	    model.addAttribute("postulante", postulant);
+	    model.addAttribute("postulant", postulant);
 	    model.addAttribute("isLoggedIn", isLoggedIn);
 		return "form-postulant";
 	}
-	
+	//============================ Metodo para registrar postulante ============================
 	@PostMapping("/registration-postulant")
-	public String savePostulant(@ModelAttribute("postulante") Postulant postulant, @RequestParam("jobId") Long jobId, @RequestParam("pdfFile") MultipartFile pdfFile, @AuthenticationPrincipal UserDetails userDetails) {
-		// Manejar el archivo PDF
-        if (!pdfFile.isEmpty()) {
-            try {
-                // Obtener los bytes del archivo PDF
-                byte[] pdfBytes = pdfFile.getBytes();
-                // Guardar el contenido del archivo PDF en el objeto Postulant
-                postulant.setCurriculum(pdfBytes);
-                // Establecer el nombre del archivo PDF en el objeto Postulant si lo necesitas
-                postulant.setPdfFileName(pdfFile.getOriginalFilename());
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Manejar el error, por ejemplo, redirigiendo a una página de error
-                return "layout/error/403";
+	public String savePostulant( @ModelAttribute("postulant") Postulant postulant, @RequestParam(value = "jobId", required = false) Long jobId, @RequestParam(value = "pdfFile", required = false) MultipartFile pdfFile, @AuthenticationPrincipal UserDetails userDetails) {
+        if (postulant.getId() == null) {
+        	System.out.println("Registrando nuevo postulante...");
+        	// Manejar el archivo PDF
+            if (!pdfFile.isEmpty()) {
+                try {
+                    // Obtener los bytes del archivo PDF
+                    byte[] pdfBytes = pdfFile.getBytes();
+                    // Guardar el contenido del archivo PDF en el objeto Postulant
+                    postulant.setCurriculum(pdfBytes);
+                    // Establecer el nombre del archivo PDF en el objeto Postulant si lo necesitas
+                    postulant.setPdfFileName(pdfFile.getOriginalFilename());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // Manejar el error, por ejemplo, redirigiendo a una página de error
+                    return "layout/error/403";
+                }
             }
-        }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // Comprobamos si el usuario está autenticado y es UserDetails
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            // Si es UserDetails, obtenemos el nombre de usuario
-            UserDetails loggedInUserDetails = (UserDetails) authentication.getPrincipal();
-            
-            // Ahora puedes obtener el usuario de tu servicio utilizando el nombre de usuario
-            User user = userService.findByUsername(loggedInUserDetails.getUsername());
-            
-            // Asignamos el usuario al postulante
-            postulant.setUser(user);
-        }
-        //jobId es el valor que eligue el usuario en form tiene que tener campo id="jobId" etc
-        // Obtener el Job seleccionado
-        JobOffer job = jobService.getJobOfferById(jobId);
-        // Establecer el Job en la Postulante
-        postulant.setJobOffer(job);
-        // Guardar la JobOffer
-        
-        postulantService.savePostulant(postulant);
-        return "redirect:/home";
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            // Comprobamos si el usuario está autenticado y es UserDetails
+            if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+                // Si es UserDetails, obtenemos el nombre de usuario
+                UserDetails loggedInUserDetails = (UserDetails) authentication.getPrincipal();
+                
+                // Ahora puedes obtener el usuario de tu servicio utilizando el nombre de usuario
+                User user = userService.findByUsername(loggedInUserDetails.getUsername());
+                
+                // Asignamos el usuario al postulante
+                postulant.setUser(user);
+            }
+            //jobId es el valor que eligue el usuario en form tiene que tener campo id="jobId" etc
+            // Obtener el Job seleccionado
+            JobOffer job = jobService.getJobOfferById(jobId);
+            // Establecer el Job en la Postulante
+            postulant.setJobOffer(job);
+            // Guardar la JobOffer
+            postulantService.savePostulant(postulant);
+
+	    } else {
+	    	// Obtener el postulante existente desde la base de datos
+	        Postulant existingPostulant = postulantService.getPostulantById(postulant.getId());
+	      
+	        if (existingPostulant != null) {
+	            // Sobrescribir solo los campos que se desean modificar
+	            existingPostulant.setAge(postulant.getAge());
+	            existingPostulant.setPhone(postulant.getPhone());
+	            existingPostulant.setStudies(postulant.getStudies());
+	            existingPostulant.setAddress(postulant.getAddress());
+	            existingPostulant.setAditional(postulant.getAditional());
+	            postulantService.editPostulant(existingPostulant);
+	        } 
+           
+	    }
+        return "redirect:/postulant/user";
 	}
 	
+	//============================ Metodo para editar un postulante ============================
+	@GetMapping("/update-postulant/{id}")
+	public String editPostulantUser(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		boolean isLoggedIn = userDetails != null;
+		Postulant postulant = postulantService.getPostulantById(id);
+		model.addAttribute("postulant", postulant);
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		
+		return "form-postulant";
+	}
+			
+	//============================ Metodo para eliminar un postulante ============================
+	@GetMapping("/delete-postulant/{id}")
+	public String deletePostulantUser(@PathVariable Long id, Model model) {
+		  // Verificar si el job está relacionado con un sector
+		   postulantService.deletePostulant(id);
+		   return "redirect:/postulant/user";
+	}
 	
+
 	//@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@Secured("hasRole('ADMIN')")
 	@GetMapping("/admin")
@@ -137,7 +173,6 @@ public class PostulantController {
         	    String username = userDetails.getUsername();
         	    User user = userService.findByUsername(username);
         	    
-        	    
                 Long userId = user.getId();
                 List<Postulant> postulants = postulantService.getAllPostulantsByUserId(userId);
                 model.addAttribute("postulants", postulants);
@@ -161,17 +196,14 @@ public class PostulantController {
         if (postulant == null || postulant.getCurriculum() == null) {
             return ResponseEntity.notFound().build();
         }
-
         // Configurar los encabezados de la respuesta HTTP
         HttpHeaders headers = new HttpHeaders();
         MediaType mediaType = MediaType.parseMediaType("application/pdf"); // Crear un MediaType para application/pdf
         headers.setContentType(mediaType); // Establecer el tipo de contenido
         headers.setContentDispositionFormData("filename", "curriculum.pdf");
 
-
         // Crear un recurso ByteArrayResource desde el contenido del PDF
         ByteArrayResource resource = new ByteArrayResource(postulant.getCurriculum());
-
         // Devolver el archivo PDF como una respuesta
         return ResponseEntity.ok()
                 .headers(headers)

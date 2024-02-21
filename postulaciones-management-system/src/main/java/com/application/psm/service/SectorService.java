@@ -14,5 +14,7 @@ public interface SectorService {
 	public Sector editSector(Sector sector);
 	
 	public Sector getSectorById(Long id);
+	
+	public boolean isJobRelatedToSector(Long id);
 
 }
