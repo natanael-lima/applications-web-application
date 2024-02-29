@@ -43,14 +43,26 @@ public class PostulantController {
 	//============================ Metodo para mostrar formulario ============================
 	@GetMapping("/new-postulant")
 	public String showPostulantForm(Model model, @AuthenticationPrincipal UserDetails userDetails, @RequestParam("jobId") Long jobId) {
-	    boolean isLoggedIn = userDetails != null;
-	    // Obtener el Job seleccionado
-	 	JobOffer job = jobService.getJobOfferById(jobId);
-	    Postulant postulant = new Postulant();
-	    model.addAttribute("job", job);
-	    model.addAttribute("postulant", postulant);
-	    model.addAttribute("isLoggedIn", isLoggedIn);
-		return "form-postulant";
+		if (userDetails != null) {
+            // Verificar si el usuario tiene el rol de visitante
+            boolean isAdmin = userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_VISITANTE"));
+            if (isAdmin) {
+	            	 boolean isLoggedIn = userDetails != null;
+	         	    // Obtener el Job seleccionado
+	         	 	JobOffer job = jobService.getJobOfferById(jobId);
+	         	    Postulant postulant = new Postulant();
+	         	    model.addAttribute("job", job);
+	         	    model.addAttribute("postulant", postulant);
+	         	    model.addAttribute("isLoggedIn", isLoggedIn);
+	         		return "form-postulant";
+            } else {
+                // Si el usuario no es visitante, redireccionar a una página de error
+                return "/layout/error/403";
+            }
+        } else {
+            // Manejar el caso cuando el usuario no está autenticado
+        	 return "redirect:/user/login-user";
+        }
 	}
 	//============================ Metodo para registrar postulante ============================
 	@PostMapping("/registration-postulant")
@@ -113,24 +125,48 @@ public class PostulantController {
 	//============================ Metodo para editar un postulante ============================
 	@GetMapping("/update-postulant/{id}")
 	public String editPostulantUser(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
-		boolean isLoggedIn = userDetails != null;
-		Postulant postulant = postulantService.getPostulantById(id);
-		model.addAttribute("postulant", postulant);
-		model.addAttribute("isLoggedIn", isLoggedIn);
 		
-		return "form-postulant";
+		if (userDetails != null) {
+            // Verificar si el usuario tiene el rol de visitante
+            boolean isAdmin = userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_VISITANTE"));
+            if (isAdmin) {
+	            	boolean isLoggedIn = userDetails != null;
+	        		Postulant postulant = postulantService.getPostulantById(id);
+	        		model.addAttribute("postulant", postulant);
+	        		model.addAttribute("isLoggedIn", isLoggedIn);
+	        		
+	        		return "form-postulant";
+            } else {
+                // Si el usuario no es visitante, redireccionar a una página de error
+                return "/layout/error/403";
+            }
+        } else {
+            // Manejar el caso cuando el usuario no está autenticado
+        	 return "redirect:/user/login-user";
+        }	
 	}
 			
 	//============================ Metodo para eliminar un postulante ============================
 	@GetMapping("/delete-postulant/{id}")
-	public String deletePostulantUser(@PathVariable Long id, Model model) {
-		  // Verificar si el job está relacionado con un sector
-		   postulantService.deletePostulant(id);
-		   return "redirect:/postulant/user";
+	public String deletePostulantUser(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		if (userDetails != null) {
+            // Verificar si el usuario tiene el rol de visitante
+            boolean isAdmin = userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_VISITANTE"));
+            if (isAdmin) {
+		            	// Verificar si el job está relacionado con un sector
+		     		    postulantService.deletePostulant(id);
+		     		    return "redirect:/postulant/user";
+            } else {
+                // Si el usuario no es visitante, redireccionar a una página de error
+                return "/layout/error/403";
+            }
+        } else {
+            // Manejar el caso cuando el usuario no está autenticado
+        	 return "redirect:/user/login-user";
+        }	  
 	}
 	
-
-	//@Secured({"ROLE_USER","ROLE_ADMIN"})
+	//============================ Metodo para mostrar tabla de todos los postulantes ============================
 	@Secured("hasRole('ADMIN')")
 	@GetMapping("/admin")
 	public String postulantShowTable(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -157,7 +193,7 @@ public class PostulantController {
         }
 	}
 
-	
+	//============================ Metodo para mostrar tabla de todos los postulaciones del usuario expecifico ============================
 	@Secured("hasRole('VISITANTE')")
 	@GetMapping("/user")
 	public String mypostulantsShow(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -179,7 +215,7 @@ public class PostulantController {
         	    
                 return "user-postulants";
             } else {
-                // Si el usuario es administrador, redireccionar a una página de error 404
+                // Si el usuario es visitante, redireccionar a una página de error 404
                 return "/layout/error/403";
             }
         } else {
@@ -188,7 +224,7 @@ public class PostulantController {
         }
 	}
 	
-
+	//============================ Metodo para mostrar descargar el pdf del usuario postulado============================
     @GetMapping("/download/{postulantId}")
     public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable Long postulantId) {
         // Obtener el postulante de la base de datos
@@ -201,7 +237,6 @@ public class PostulantController {
         MediaType mediaType = MediaType.parseMediaType("application/pdf"); // Crear un MediaType para application/pdf
         headers.setContentType(mediaType); // Establecer el tipo de contenido
         headers.setContentDispositionFormData("filename", "curriculum.pdf");
-
         // Crear un recurso ByteArrayResource desde el contenido del PDF
         ByteArrayResource resource = new ByteArrayResource(postulant.getCurriculum());
         // Devolver el archivo PDF como una respuesta
@@ -210,7 +245,7 @@ public class PostulantController {
                 .contentLength(postulant.getCurriculum().length)
                 .body(resource);
     }
-    
+    //============================ Metodo para aceptar solicitud ============================
     @PostMapping("/{postulantId}/accept")
     public String acceptPostulant(@PathVariable("postulantId") Long postulantId) {
         // Lógica para aceptar la postulación
@@ -219,7 +254,7 @@ public class PostulantController {
         postulantService.savePostulant(postulant);
         return "redirect:/postulant/admin";
     }
-
+    //============================ Metodo para rechazar solicitud ============================
     @PostMapping("/{postulantId}/reject")
     public String rejectPostulant(@PathVariable("postulantId") Long postulantId) {
         // Lógica para rechazar la postulación

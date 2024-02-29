@@ -26,9 +26,12 @@
 				<p>Email:  <strong><span th:text="${user.email}"></span></strong></p>
 				<p>Username:  <strong><span th:text="${user.username}"></span></strong></p>
 				<p>Password:  <strong><span>*********</span></strong></p>
-	    		 <button class=" btn btn-sm btn-dark" type="submit">Editar</button>
-	      		 <button class=" btn btn-sm btn-dark" type="submit">Dar de Baja</button>
-	             <button class="btn btn-sm btn-dark" type="submit">Cerrar Sesion</button>
+				<div class="btn-group">
+				 <a class="btn btn-sm btn-outline-dark" type="submit" th:href ="@{/user/edit-profile/{id}(id=${user.id})}" th:if="${#authorization.expression('hasRole(''VISITANTE'')')}">Editar</a>
+	      		 <a class="btn btn-sm btn-outline-dark" type="submit" th:href ="@{/user/delete-profile/{id}(id=${user.id})}" th:if="${#authorization.expression('hasRole(''VISITANTE'')')}" >Dar de Baja</a>
+	             <a class="btn btn-sm btn-outline-dark" type="submit" th:href ="@{/user/form-password}">Cambiar Password</a>
+				</div>	
+	    		
 			</div>
 			<div class="col-6 col-md-6 col-sm-12 col-lg-6 p-0  text-center mt-5">
 					<img src="/img/img-user.png" width="300" class="rounded mx-auto d-block" alt="...">

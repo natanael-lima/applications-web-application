@@ -26,4 +26,18 @@ public class RoleServiceImp implements RoleService{
 		// TODO Auto-generated method stub
 		return (List<Role>) roleRepository.findAll();
 	}
+
+	@Override
+	public Role saveRole(Role role) {
+		// TODO Auto-generated method stub
+		return roleRepository.save(role);
+	}
+
+	@Override
+	public boolean existsByName(String name) {
+		// TODO Auto-generated method stub
+		// Verificar si existe un rol con el nombre dado
+	    Role role = roleRepository.findByRoleName(name);
+	    return role != null; // Devolver true si se encontró un rol, false de lo contrario
+	}
 }

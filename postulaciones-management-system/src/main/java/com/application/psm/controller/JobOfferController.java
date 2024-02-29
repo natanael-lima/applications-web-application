@@ -2,6 +2,7 @@ package com.application.psm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,12 +43,24 @@ public class JobOfferController {
 	//============================ Metodo para mostrar formulario ============================
 	@GetMapping("/new-job")
 	public String jobShowForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-	    boolean isLoggedIn = userDetails != null;
-	    JobOffer job = new JobOffer();
-	    model.addAttribute("job", job);
-	    model.addAttribute("sectors", sectorService.getAllSectors());
-	    model.addAttribute("isLoggedIn", isLoggedIn);
-	    return "form-job";
+		if (userDetails != null) {
+            // Verificar si el usuario tiene el rol de administrador
+            boolean isAdmin = userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            if (isAdmin) {
+            	boolean isLoggedIn = userDetails != null;
+        	    JobOffer job = new JobOffer();
+        	    model.addAttribute("job", job);
+        	    model.addAttribute("sectors", sectorService.getAllSectors());
+        	    model.addAttribute("isLoggedIn", isLoggedIn);
+        	    return "form-job";
+            } else {
+                // Si el usuario no es administrador, redireccionar a una página de error
+                return "/layout/error/403";
+            }
+        } else {
+            // Manejar el caso cuando el usuario no está autenticado
+        	 return "redirect:/user/login-user";
+        }
 	}
 
 	//============================ Metodo para registrar un job ============================
@@ -74,23 +87,47 @@ public class JobOfferController {
 	//============================ Metodo para editar un sector ============================
 	@GetMapping("/edit-job/{id}")
 	public String editJob(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
-		   boolean isLoggedIn = userDetails != null;
-		   JobOffer job = jobService.getJobOfferById(id);
-		   model.addAttribute("job", job);
-		   model.addAttribute("sectors", sectorService.getAllSectors());
-		   model.addAttribute("isLoggedIn", isLoggedIn);
-		   return "form-job";
+		if (userDetails != null) {
+            // Verificar si el usuario tiene el rol de administrador
+            boolean isAdmin = userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            if (isAdmin) {
+            	   boolean isLoggedIn = userDetails != null;
+	     		   JobOffer job = jobService.getJobOfferById(id);
+	     		   model.addAttribute("job", job);
+	     		   model.addAttribute("sectors", sectorService.getAllSectors());
+	     		   model.addAttribute("isLoggedIn", isLoggedIn);
+	     		   return "form-job";
+            } else {
+                // Si el usuario no es administrador, redireccionar a una página de error
+                return "/layout/error/403";
+            }
+        } else {
+            // Manejar el caso cuando el usuario no está autenticado
+        	 return "redirect:/user/login-user";
+        }
 	}
 		
 	//============================ Metodo para eliminar un sector============================
 	@GetMapping("/delete-job/{id}")
-	public String deleteJob(@PathVariable Long id, Model model) {
-	   // Verificar si el job está relacionado con un sector
-	   if (sectorService.isJobRelatedToSector(id)) {
-	    	return "/layout/error/400";
-	    }else {
-	    	jobService.deleteJobOfferr(id);
-			return "redirect:/job/all-jobs";
-	    }
+	public String deleteJob(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		if (userDetails != null) {
+            // Verificar si el usuario tiene el rol de administrador
+            boolean isAdmin = userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            if (isAdmin) {
+		            	// Verificar si el job está relacionado con un sector
+		         	   if (sectorService.isJobRelatedToSector(id)) {
+		         	    	return "/layout/error/400";
+		         	    }else {
+		         	    	jobService.deleteJobOfferr(id);
+		         			return "redirect:/job/all-jobs";
+		         	    }
+            } else {
+                // Si el usuario no es administrador, redireccionar a una página de error
+                return "/layout/error/403";
+            }
+        } else {
+            // Manejar el caso cuando el usuario no está autenticado
+        	 return "redirect:/user/login-user";
+        }
 	}
 }

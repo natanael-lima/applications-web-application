@@ -30,10 +30,13 @@
 						    <div class="invalid-feedback">Por favor complete el campo edad.</div>
 						  </div>
 						  <div class="col-md-6 col-lg-6 col-sm-12">
-						    <label for="validationServer02" class="form-label">Telefono</label>
-						    <input type="text" class="form-control is-valid" id="validationServer02" th:field="*{phone}" value="3885557677" required>
-						    <div class="invalid-feedback">Por favor complete el campo telefono.</div>
-						  </div>
+						  		<label for="validationServer01" class="form-label">Telefono</label>
+							    <div class="input-group">
+							        <span class="input-group-text">388-</span>
+							        <input type="text" class="form-control is-valid" id="validationServer02" th:field="*{phone}" placeholder="Ingrese el resto del número" required>
+							        <div class="invalid-feedback">Por favor complete el campo telefono.</div>
+							    </div>
+						   </div>
 						</div>
 						<div class="row p-2">
 						  <div class="col-md-6 col-lg-6 col-sm-12">
@@ -74,8 +77,8 @@
 						 
 						    <!-- Campo oculto para enviar el ID del trabajo, solo se incluye en el modo de creación -->
 						    <input type="hidden" id="jobId" name="jobId" th:value="${job.id}" th:if="${postulant.id == null}" />
-							<!-- Etiqueta para mostrar el ID del trabajo cuando estás editando un postulante -->
-							<label th:if="${postulant.id != null}" class="form-label">ID del trabajo: <span th:text="${postulant.jobOffer.id}"></span></label>
+							<!-- Etiqueta para mostrar el ID del trabajo cuando estás editando un postulante 
+							<label th:if="${postulant.id != null}" class="form-label">ID del trabajo: <span th:text="${postulant.jobOffer.id}"></span></label>-->
 						</div>
 						
 						<div class="row p-2">

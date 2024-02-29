@@ -30,8 +30,8 @@
 		      </ul>
 			
 			   <div th:unless="${isLoggedIn}" class="text-end">
-			        <a class="btn btn-outline-light" href="/" th:href="@{/user/login-user}" role="button">Iniciar Sesion</a>
-			        <a class="btn btn-light" href="/" th:href="@{/user/new-user}" role="button">Registrame</a>
+			        <a class="btn btn-outline-light" th:href="@{/user/login-user}" role="button">Iniciar Sesion</a>
+			        <a class="btn btn-light" th:href="@{/user/new-user}" role="button">Registrame</a>
 			   </div>
 		        <!-- Botón de Cerrar Sesión -->
 		       <div th:if="${isLoggedIn}" class=" flex-shrink-0 dropdown">

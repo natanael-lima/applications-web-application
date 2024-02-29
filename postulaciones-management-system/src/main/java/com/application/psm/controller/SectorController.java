@@ -1,7 +1,9 @@
 package com.application.psm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,13 +34,28 @@ public class SectorController {
 	}
 	
 	//============================ Metodo para mostrar formulario ============================
+	@Secured("hasRole('ADMIN')")
 	@GetMapping("/new-sector")
 	public String sectorShowForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-	    boolean isLoggedIn = userDetails != null;
-	    Sector sector = new Sector();
-	    model.addAttribute("sector", sector);
-	    model.addAttribute("isLoggedIn", isLoggedIn);
-	    return "form-sector";
+	    if (userDetails != null) {
+            // Verificar si el usuario tiene el rol de administrador
+            boolean isAdmin = userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            
+            if (isAdmin) {
+            	boolean isLoggedIn = userDetails != null;
+        	    Sector sector = new Sector();
+        	    model.addAttribute("sector", sector);
+        	    model.addAttribute("isLoggedIn", isLoggedIn);
+        	    return "form-sector";
+            } else {
+                // Si el usuario no es administrador, redireccionar a una página de error
+                return "/layout/error/403";
+            }
+        } else {
+            // Manejar el caso cuando el usuario no está autenticado
+        	 return "redirect:/user/login-user";
+        }
+
 	}
 	
 	//============================ Metodo para registrar un sector ============================
@@ -57,23 +74,47 @@ public class SectorController {
 	//============================ Metodo para editar un sector ============================
 	@GetMapping("/edit-sector/{id}")
 	public String editSector(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
-	    boolean isLoggedIn = userDetails != null;
-	    Sector sector = sectorService.getSectorById(id);
-	    model.addAttribute("sector", sector);
-	    model.addAttribute("isLoggedIn", isLoggedIn);
-	    return "form-sector";
+		  if (userDetails != null) {
+	            // Verificar si el usuario tiene el rol de administrador
+	            boolean isAdmin = userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+	            if (isAdmin) {
+	        	    boolean isLoggedIn = userDetails != null;
+	        	    Sector sector = sectorService.getSectorById(id);
+	        	    model.addAttribute("sector", sector);
+	        	    model.addAttribute("isLoggedIn", isLoggedIn);
+	        	    return "form-sector";
+	            } else {
+	                // Si el usuario no es administrador, redireccionar a una página de error
+	                return "/layout/error/403";
+	            }
+	        } else {
+	            // Manejar el caso cuando el usuario no está autenticado
+	        	 return "redirect:/user/login-user";
+	        }
 	}
 	
 	//============================ Metodo para eliminar un sector ============================
 	@GetMapping("/delete-sector/{id}")
-	public String deleteSector(@PathVariable Long id, Model model) {
-		// Verificar si el job está relacionado con un sector
-		   if (sectorService.isJobRelatedToSector(id)) {
-		    	return "/layout/error/400";
-		    }else {
-				sectorService.deleteSector(id);
-				return "redirect:/sector/all-sectors";
-		    }
+	public String deleteSector(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		   if (userDetails != null) {
+	            // Verificar si el usuario tiene el rol de administrador
+	            boolean isAdmin = userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+	            if (isAdmin) {
+	            	// Verificar si el job está relacionado con un sector
+	     		   if (sectorService.isJobRelatedToSector(id)) {
+	     		    	return "/layout/error/400";
+	     		    }else {
+	     				sectorService.deleteSector(id);
+	     				return "redirect:/sector/all-sectors";
+	     		    }
+	            } else {
+	                // Si el usuario no es administrador, redireccionar a una página de error
+	                return "/layout/error/403";
+	            }
+	        } else {
+	            // Manejar el caso cuando el usuario no está autenticado
+	        	 return "redirect:/user/login-user";
+	        }  
 		
 	}
 	
