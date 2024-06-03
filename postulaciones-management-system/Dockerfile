@@ -5,9 +5,9 @@ RUN mvn clean package -DskipTests
 
 # Etapa de ejecución
 FROM openjdk:17-jdk-slim
-COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar postulaciones-management-system.jar
+COPY --from=build /app/target/postulaciones-management-system-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "postulaciones-management-system.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
 
 # Variables de entorno de la base de datos
 #ENV SPRING_DATASOURCE_URL=jdbc:mysql://<host>:<port>/pms?serverTimezone=America/Argentina/Jujuy
