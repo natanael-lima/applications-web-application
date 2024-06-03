@@ -22,24 +22,7 @@
 				<h1 class="text-center p-2">Formulario de Postulacion</h1>
 				<div class="card-body mb-2">
 				<!-- form -->
-					<form class="was-validated" th:action = "@{/postulant/registration-postulant}" th:object = "${postulante}" method="POST" enctype="multipart/form-data">
-						<!--<div class="row p-2">
-						  <div class="col-md-4 col-lg-4 col-sm-12">
-						    <label for="validationServer01" class="form-label">Nombres</label>
-						    <input type="text" class="form-control is-valid" id="validationServer01" value="Miguel..." required>
-						    <div class="invalid-feedback">Por favor complete el campo nombre.</div>
-						  </div>
-						  <div class="col-md-4 col-lg-4 col-sm-12">
-						    <label for="validationServer02" class="form-label">Apellidos</label>
-						    <input type="text" class="form-control is-valid" id="validationServer02" value="Ohara..." required>
-						    <div class="invalid-feedback">Por favor complete el campo apellido.</div>
-						  </div>
-						  <div class="col-md-4 col-lg-4 col-sm-12">
-						    <label for="validationServerUsername" class="form-label">Correo Electronico</label>
-						    <input type="text" class="form-control is-valid" id="validationServer02" value="miguel20@hotmail.com" required>
-						    <div class="invalid-feedback">Por favor complete el campo apellido.</div>
-						  </div>	
-						</div>  -->
+					<form class="was-validated" th:action = "@{/postulant/registration-postulant}" th:object = "${postulant}" method="POST" enctype="multipart/form-data">
 						<div class="row p-2">
 						  <div class="col-md-6 col-lg-6 col-sm-12">
 						    <label for="validationServer01" class="form-label">Edad</label>
@@ -47,10 +30,13 @@
 						    <div class="invalid-feedback">Por favor complete el campo edad.</div>
 						  </div>
 						  <div class="col-md-6 col-lg-6 col-sm-12">
-						    <label for="validationServer02" class="form-label">Telefono</label>
-						    <input type="text" class="form-control is-valid" id="validationServer02" th:field="*{phone}" value="3885557677" required>
-						    <div class="invalid-feedback">Por favor complete el campo telefono.</div>
-						  </div>
+						  		<label for="validationServer01" class="form-label">Telefono</label>
+							    <div class="input-group">
+							        <span class="input-group-text">388-</span>
+							        <input type="text" class="form-control is-valid" id="validationServer02" th:field="*{phone}" placeholder="Ingrese el resto del número" required>
+							        <div class="invalid-feedback">Por favor complete el campo telefono.</div>
+							    </div>
+						   </div>
 						</div>
 						<div class="row p-2">
 						  <div class="col-md-6 col-lg-6 col-sm-12">
@@ -71,7 +57,7 @@
 						  </div>
 						</div>
 						<div class="row p-2">
-							  <div class="col-md-12 col-lg-12 col-sm-12">
+							  <div class="col-md-12 col-lg-12 col-sm-12" th:if="${postulant.id == null}">
 							    <label for="validationServer01" class="form-label">Curriculum Vitae</label>
 							    <div class="mb-3">
 							    <input type="file" class="form-control" aria-label="file example" th:required="required" th:name="pdfFile" accept=".pdf">
@@ -85,7 +71,14 @@
 						    	<textarea class="form-control" id="validationTextarea" placeholder="Required example textarea" th:field="*{aditional}" required></textarea>
 						    	<div class="invalid-feedback">Por favor ingrese un mensaje adicional sobre usted.</div>
 						  </div>
-						   <input type="hidden" id="jobId" name="jobId" th:value="${job.id}" />
+						   
+						   <!-- Campo oculto para enviar el ID del postulante, solo se incluye en el modo de edición -->
+						   <input type="hidden" name="id" th:value="${postulant.id}" th:if="${postulant.id != null}" />
+						 
+						    <!-- Campo oculto para enviar el ID del trabajo, solo se incluye en el modo de creación -->
+						    <input type="hidden" id="jobId" name="jobId" th:value="${job.id}" th:if="${postulant.id == null}" />
+							<!-- Etiqueta para mostrar el ID del trabajo cuando estás editando un postulante 
+							<label th:if="${postulant.id != null}" class="form-label">ID del trabajo: <span th:text="${postulant.jobOffer.id}"></span></label>-->
 						</div>
 						
 						<div class="row p-2">

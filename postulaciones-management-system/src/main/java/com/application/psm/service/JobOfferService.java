@@ -15,4 +15,6 @@ public List<JobOffer> getAllJobOffer();
 	public JobOffer editJobOffer(JobOffer job);
 	
 	public JobOffer getJobOfferById(Long id);
+	
+	public boolean isJobOfferRelatedToPostulant(Long id);
 }

@@ -25,20 +25,46 @@ public class UserServiceImp implements UserService{
 
 	@Override
 	public User saveUser(User user) {
+		
+		boolean adminExists = userRepository.existsAdminRole();
+		System.out.println("¿Existe un administrador en la base de datos?: " + adminExists);
 
-				
-		Role userRole = roleRepository.findById(1L).get();
 
-		User newUser = new User(
-			    user.getName(),
-			    user.getLastname(),
-			    user.getEmail(),
-			    user.getUsername(),
-			    passwordEncoder.encode(user.getPassword()),
-			    userRole
-			);
-		newUser.setLoggedIn(false);
-		return userRepository.save(newUser);
+		if (adminExists) {
+		    // Ya se ha agregado un administrador a la base de datos
+			Role userRole = roleRepository.findById(2L).get();
+
+			User newUser = new User(
+				    user.getName(),
+				    user.getLastname(),
+				    user.getEmail(),
+				    user.getUsername(),
+				    passwordEncoder.encode(user.getPassword()),
+				    userRole
+				);
+			newUser.setLoggedIn(false);
+			return userRepository.save(newUser);
+			
+			} else {
+		    // No se ha agregado ningún administrador a la base de datos aún
+			Role adminRole = roleRepository.findById(1L).get(); // Buscar el rol de administrador por su nombre
+		    if (adminRole == null) {
+		        // Manejar el caso en el que el rol de administrador no existe en la base de datos
+		        throw new RuntimeException("Admin role not found in the database");
+		    }
+
+		    // Crear el usuario con el rol de administrador
+		    User adminUser = new User(
+		            user.getName(),
+		            user.getLastname(),
+		            user.getEmail(),
+		            user.getUsername(),
+		            passwordEncoder.encode(user.getPassword()),
+		            adminRole // Asignar el rol de administrador
+		    );
+		    adminUser.setLoggedIn(false);
+			return userRepository.save(adminUser);
+		}
 	}
 
 
@@ -55,7 +81,6 @@ public class UserServiceImp implements UserService{
 		return userRepository.findByUsername(username);
 	}
 
-
 	@Override
 	public String getUserRole(String username) {
 		User user = userRepository.findByUsername(username);
@@ -68,23 +93,38 @@ public class UserServiceImp implements UserService{
         }
         return null;
 	}
-	
-	
-	
-}
 
-	/*@Override
-	public User saveUser(User user) {
-		User newuser = new User(user.getFirstName(), 
-				user.getLastName(), user.getEmail(),
-				passwordEncoder.encode(user.getPassword()), Arrays.asList(new Role("ROLE_USER")));
-		
+	@Override
+	public boolean existsAdminRole() {
+		// TODO Auto-generated method stub
+		return userRepository.existsAdminRole();
+	}
+
+
+	@Override
+	public void deleteUser(Long id) {
+		// TODO Auto-generated method stub
+		userRepository.deleteById(id);
+	}
+
+
+	@Override
+	public User editUser(User user) {
+		// TODO Auto-generated method stub
+		//Role userRole = roleRepository.findById(2L).get();
+		/*User userUpdate = new User(
+			    user.getName(),
+			    user.getLastname(),
+			    user.getEmail(),
+			    user.getUsername(),
+			    passwordEncoder.encode(user.getPassword()),
+			    userRole
+			);
+		userUpdate.setLoggedIn(true);*/
 		return userRepository.save(user);
 	}
-	
-	
+}
 
-	}*/
 
 	
 	

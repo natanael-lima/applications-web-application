@@ -42,11 +42,14 @@
 					              <p><strong>Título:</strong><span th:text="${job.title}">Desarrollador de Software Senior</span></p>
 								
 					              <div class="d-flex justify-content-between align-items-center">
-					                <div class="btn-group">
-					                  <a type="button" class="btn btn-sm btn-outline-secondary" th:href="@{/postulant/new-postulant(jobId=${job.id})}">Postularme</a>
-					                  <!-- Botón que abre el modal -->
-									  <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" th:attr="data-bs-target='#miModal' + ${job.id}">Ver Detalles</button>
-					                </div>
+						                <div class="btn-group">
+						                  <a type="button" class="btn btn-sm btn-outline-dark" th:href="@{/postulant/new-postulant(jobId=${job.id})}">Postularme</a>
+						                  <!-- Botón que abre el modal -->
+										  <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" th:attr="data-bs-target='#miModal' + ${job.id}">Ver Detalles</button>
+						                  <a type="button" class="btn btn-sm btn-primary" th:href ="@{/job/edit-job/{id}(id=${job.id})}" th:if="${#authorization.expression('hasRole(''ADMIN'')')}" sec:authorize="isAuthenticated()">Editar</a>
+						                  <a type="button" class="btn btn-sm btn-danger" th:href ="@{/job/delete-job/{id}(id=${job.id})}" th:if="${#authorization.expression('hasRole(''ADMIN'')')}" sec:authorize="isAuthenticated()">Eliminar</a>
+						                  
+						                 </div>
 					                <!-- Modal -->
 										<div th:each="job : ${jobs}" class="modal fade" th:id="'miModal' + ${job.id}" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
 										    <div class="modal-dialog modal-lg">
@@ -70,12 +73,12 @@
 										                </div>
 										            </div>
 										            <div class="modal-footer">
-										                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+										                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cerrar</button>
 										            </div>
 										        </div>
 										    </div>
 										</div>
-					                <small class="text-muted">Urgente</small>
+					                	<!--<small class="text-muted">Urgente</small>  -->
 					              </div>
 					            </div>
 				</div>	          

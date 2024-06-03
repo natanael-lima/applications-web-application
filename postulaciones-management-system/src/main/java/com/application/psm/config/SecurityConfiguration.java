@@ -39,7 +39,7 @@ public class SecurityConfiguration {
 		http.csrf().disable()
         .authorizeRequests(authorizeRequests ->
             authorizeRequests
-                .requestMatchers("/user/new-user","/home","/sector/all-sectors","/job/all-jobs","/js/**", "/css/**", "/img/**").permitAll()
+                .requestMatchers("/user/new-user","/user/registration-user","/home","/sector/all-sectors","/job/all-jobs","/js/**", "/css/**", "/img/**").permitAll()
                 .requestMatchers("/visitante/**").hasRole("VISITANTE") // Requiere rol USER
                 .requestMatchers("/admin**").hasRole("ADMIN") // Requiere rol ADMIN
                 .anyRequest().authenticated()
