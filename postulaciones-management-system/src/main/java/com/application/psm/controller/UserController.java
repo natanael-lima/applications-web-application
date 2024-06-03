@@ -96,7 +96,9 @@ public class UserController {
 	//============================ Metodo para modificar usuario ============================
 	@PostMapping("/registration-user-update")
 	public String updateUserAccount(@ModelAttribute("user") User user, HttpSession session, @AuthenticationPrincipal UserDetails userDetails, Model model) {
-
+		boolean isLoggedIn = userDetails != null;
+		model.addAttribute("isLoggedIn", isLoggedIn);	
+		
 	    //Obtener el usuario logueado seleccionado
 		String username = userDetails.getUsername();
 		model.addAttribute("username", username);
@@ -170,23 +172,24 @@ public class UserController {
 	
 	//============================ Metodo para update para cambiar password ============================
 	@PostMapping("/update-password")
-	public String updatePasswordForm(@RequestParam("oldPass") String oldPass, @RequestParam("newPass") String newPass, Model model,  @AuthenticationPrincipal UserDetails userDetails) {
-			
+	public String updatePasswordForm(@RequestParam("oldPass") String oldPass, @RequestParam("newPass") String newPass, Model model,  @AuthenticationPrincipal UserDetails userDetails, HttpSession session) {
+			boolean isLoggedIn = userDetails != null;
+			model.addAttribute("isLoggedIn", isLoggedIn);
+		
 			String username = userDetails.getUsername();
 		     // También agrega el objeto user al modelo si es necesario
 		     User user = userService.findByUsername(username);
 		     
-		    boolean f =  passwordEncoder.matches(oldPass, user.getPassword());
-		    
 		    boolean isPasswordMatch = passwordEncoder.matches(oldPass, user.getPassword());
 	        
 	        if (isPasswordMatch) {
 	            user.setPassword(passwordEncoder.encode(newPass));
 	            userService.editUser(user);
-	            return "redirect:/user/profile";
+	            model.addAttribute("success", true);
+	            return "user-changing-password";
 	        } else {
 	            // La contraseña antigua no coincide, manejar el error
-	            model.addAttribute("error", "La contraseña antigua no coincide");
+	        	model.addAttribute("error", true);
 	            return "user-changing-password";
 	        }
 
