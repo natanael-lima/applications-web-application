@@ -1,7 +1,7 @@
 # Etapa de construcción
 FROM amazoncorretto:21-alpine-jdk
 #COPY . .
-RUN mvn clean package -DskipTests
+#RUN mvn clean package -DskipTests
 
 # Etapa de ejecución
 #FROM openjdk:17-jdk-slim
