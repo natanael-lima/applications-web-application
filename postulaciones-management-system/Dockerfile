@@ -1,12 +1,12 @@
 # Etapa de construcción
-FROM maven:3.8.5-openjdk-17 AS build
-COPY . .
+FROM amazoncorretto:21-alpine-jdk
+#COPY . .
 RUN mvn clean package -DskipTests
 
 # Etapa de ejecución
-FROM openjdk:17-jdk-slim
-COPY --from=build /app/target/postulaciones-management-system-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 8080
+#FROM openjdk:17-jdk-slim
+COPY target/postulaciones-management-system-0.0.1-SNAPSHOT.jar app.jar
+#EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
 
 # Variables de entorno de la base de datos
