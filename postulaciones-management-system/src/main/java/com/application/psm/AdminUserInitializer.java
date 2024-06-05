@@ -1,6 +1,7 @@
 package com.application.psm;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,21 @@ public class AdminUserInitializer implements ApplicationRunner {
 	
 	@Autowired 
     private RoleService roleService;
+	
+	@Value("${ADMIN_NAME}")
+    private String adminName;
+
+    @Value("${ADMIN_LASTNAME}")
+    private String adminLastname;
+
+    @Value("${ADMIN_EMAIL}")
+    private String adminEmail;
+
+    @Value("${ADMIN_USERNAME}")
+    private String adminUsername;
+
+    @Value("${ADMIN_PASSWORD}")
+    private String adminPassword;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -34,11 +50,11 @@ public class AdminUserInitializer implements ApplicationRunner {
 
             if (!userService.existsAdminRole()) {
                 User adminUser = new User();
-                adminUser.setName("Natanael");
-                adminUser.setLastname("Lima");
-                adminUser.setEmail("admin@empresa.com");
-                adminUser.setUsername("admin");
-                adminUser.setPassword("admin"); 
+                adminUser.setName(adminName);
+                adminUser.setLastname(adminLastname);
+                adminUser.setEmail(adminEmail);
+                adminUser.setUsername(adminUsername);
+                adminUser.setPassword(adminPassword);
                 userService.saveUser(adminUser);
             }
         } catch (Exception e) {
