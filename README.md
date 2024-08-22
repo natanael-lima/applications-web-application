@@ -41,6 +41,11 @@ Este proyecto es un sistema web diseñado para gestionar postulaciones a ofertas
 5. **Acceder a la Aplicación:
    ```bash
    http://localhost:8080
+
+## Vista Previa del Proyecto
+
+![Descripción de la imagen]([ruta/a/la/imagen.png](https://i.postimg.cc/3xcBNsL2/project-asm2.png))
+
 ## Contribuciones
 
 Las contribuciones son bienvenidas. Si deseas contribuir a este proyecto, por favor realiza un fork del repositorio, crea una rama con tus cambios y envía un pull request.
