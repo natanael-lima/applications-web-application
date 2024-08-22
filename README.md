@@ -30,15 +30,15 @@ Este proyecto es un sistema web diseñado para gestionar postulaciones a ofertas
    ```bash
    git clone https://github.com/natanael-lima/applications-web-application.git
    cd applications-web-application
-2. **Configurar la Base de Datos:
+2. **Configurar la Base de Datos:**
    - Asegúrate de tener MySQL instalado y en ejecución.
    - Crea una base de datos en MySQL para la aplicación:
    - Configura las credenciales de la base de datos en el archivo application.properties de Spring Boot
-3. ** Compilar y Ejecutar la Aplicación o Desde Spring Tool Suit:
+3. ** Compilar y Ejecutar la Aplicación o Desde Spring Tool Suit:**
    ```bash
    mvn clean install
    mvn spring-boot:run
-5. **Acceder a la Aplicación:
+5. **Acceder a la Aplicación:**
    ```bash
    http://localhost:8080
 
