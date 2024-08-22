@@ -44,7 +44,7 @@ Este proyecto es un sistema web diseñado para gestionar postulaciones a ofertas
 
 ## Vista Previa del Proyecto
 
-![Descripción de la imagen]([ruta/a/la/imagen.png](https://i.postimg.cc/3xcBNsL2/project-asm2.png))
+![Vista previa de la aplicación](https://i.postimg.cc/3xcBNsL2/project-asm2.png)
 
 ## Contribuciones
 
